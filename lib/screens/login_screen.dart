@@ -76,41 +76,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: LoginButton(
-                        onPressed: () {},
-                        buttonColor: Colors.white,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                height: 30,
-                                width: 20,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                          'images/google.png',
-                                        ))),
+                      child: Material(
+                        child: LoginButton(
+                          onPressed: () {},
+                          buttonColor: Colors.white,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  height: 30,
+                                  width: 20,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.fitHeight,
+                                          image: AssetImage(
+                                            'images/google.png',
+                                          ))),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Text(
-                                  'Google',
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                          ],
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    'Google',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  )),
+                            ],
+                          ),
+                          height: 50,
+                          width: double.infinity,
                         ),
-                        height: 50,
-                        width: double.infinity,
                       ),
                     ),
                   ),
-                  Expanded(
+                  /* Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: LoginButton(
@@ -146,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               )
             ],

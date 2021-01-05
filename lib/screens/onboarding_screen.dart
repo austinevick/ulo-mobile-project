@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ulomobile_project/screens/booking_screen.dart';
+import 'package:ulomobile_project/screens/login_screen.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/onboarding_list.dart';
 
@@ -24,6 +25,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 print(value);
               },
               children: pages),
+          currentPage == 0
+              ? Positioned(
+                  bottom: 280,
+                  left: 16,
+                  right: 16,
+                  child: Center(
+                    child: FlatButton(
+                      child: Text(
+                        'Have an account? login',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (ctx) => LoginScreen())),
+                    ),
+                  ),
+                )
+              : Container(),
           Positioned(
             bottom: 16,
             left: 16,

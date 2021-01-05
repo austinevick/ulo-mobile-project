@@ -32,6 +32,8 @@ dependencies:
   provider: ^4.3.2+3
   show_up_animation: ^1.0.4
   http: ^0.12.2
+  google_fonts: ^1.1.1
+  flutter_fadein: ^1.1.1
 
 dev_dependencies:
   flutter_test:

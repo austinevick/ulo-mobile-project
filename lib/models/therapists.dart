@@ -21,21 +21,22 @@ class Therapists {
   });
 
   factory Therapists.fromMap(Map<String, dynamic> map) {
-    List<String> description;
-    List<DefaultAvailability> defaultAvailability;
+    List<String> description = [];
+    List<DefaultAvailability> defaultAvailability = [];
     map['defaultAvailability'].forEach(
         (map) => defaultAvailability.add(DefaultAvailability.fromMap(map)));
-    map['description'].forEach((map) => description.add(map));
+    map['description'].forEach((data) => description.add(data));
 
     return Therapists(
-        id: map['id'],
-        name: map['name'],
-        avatar: map['avatar'],
-        emailAddress: map['emailAddress'],
-        phone: map['phone'],
-        credentials: map['credentials'],
-        desc: description,
-        defaultAvailability: defaultAvailability);
+      id: map['id'],
+      name: map['name'],
+      avatar: map['avatar'],
+      emailAddress: map['emailAddress'],
+      phone: map['phone'],
+      credentials: map['credentials'],
+      desc: description,
+      defaultAvailability: defaultAvailability,
+    );
   }
 
   @override

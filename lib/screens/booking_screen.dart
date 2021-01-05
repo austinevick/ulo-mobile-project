@@ -23,13 +23,9 @@ class _HomeState extends State<Home> {
         builder: (c, t, ch) => ListView.builder(
           itemCount: t.therapists.length,
           itemBuilder: (context, i) => Column(
-            children: [
-              Text(
-                t.therapists[i].emailAddress,
-                style: TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
+              children: t.therapists[i].defaultAvailability
+                  .map((map) => Text(map.displayValue))
+                  .toList()),
         ),
       ),
     );

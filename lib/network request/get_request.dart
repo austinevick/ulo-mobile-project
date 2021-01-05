@@ -49,19 +49,21 @@ class NetWorkRequest {
 // Get list of therapist
   static Future<List<Therapists>> getTherapists() async {
     List<Therapists> therapists = [];
-    final response = await http.get(therapistUrl);
     try {
+      final response = await http.get(therapistUrl);
+
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         List<dynamic> data = result;
-        data.forEach((map) => therapists.add(Therapists.fromMap(map)));
         print(data);
-      } else {
-        throw Exception('Unable to fetch data');
+
+        data.forEach((map) => therapists.add(Therapists.fromMap(map)));
       }
+      throw Exception('Unable to fetch data');
     } catch (e) {
       print(e);
     }
+
     return therapists;
   }
 }

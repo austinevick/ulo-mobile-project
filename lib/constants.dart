@@ -6,7 +6,7 @@ final titleStyle = TextStyle(
   color: Colors.white,
 );
 final contentStyle = TextStyle(
-  fontSize: 20,
+  fontSize: 18,
   color: Colors.white,
 );
 

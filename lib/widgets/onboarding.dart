@@ -23,12 +23,10 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
               fit: BoxFit.cover,
               image: AssetImage(widget.image))),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: 15,
+              top: 8,
             ),
             child: Align(
               alignment: Alignment.topLeft,
@@ -41,26 +39,28 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
           Spacer(),
           ShowUpAnimation(
             delayStart: Duration(seconds: 1),
-            animationDuration: Duration(seconds: 2),
+            animationDuration: Duration(milliseconds: 500),
             direction: Direction.horizontal,
             offset: -0.5,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.title,
+                textAlign: TextAlign.center,
                 style: titleStyle,
               ),
             ),
           ),
           ShowUpAnimation(
             delayStart: Duration(seconds: 1),
-            animationDuration: Duration(seconds: 3),
+            animationDuration: Duration(seconds: 2),
             direction: Direction.horizontal,
             offset: -0.5,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.content,
+                textAlign: TextAlign.center,
                 style: contentStyle,
               ),
             ),
