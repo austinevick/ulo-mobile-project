@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 
-import '../constants.dart';
-
 class ImageWidget extends StatelessWidget {
   final Therapists therapists;
 
