@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ulomobile_project/screens/booking_screen.dart';
 import 'package:ulomobile_project/screens/login_screen.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
@@ -84,8 +85,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => BookingScreen()));
+                    showBarModalBottomSheet(
+                        builder: (context) => PickLocationScreen(),
+                        context: context);
                   },
                 ),
               ],

@@ -12,10 +12,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),*/
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
