@@ -5,6 +5,12 @@ import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/network_request/get_request.dart';
 
 class NetworkProvider extends ChangeNotifier {
+  NetworkProvider() {
+    getTreatments();
+    getCities();
+    getTherapists();
+  }
+
   List<Treatments> treatments = [];
   List<Cities> cities = [];
   List<Therapists> therapists = [];
@@ -26,6 +32,12 @@ class NetworkProvider extends ChangeNotifier {
       this.cities = value;
       notifyListeners();
     });
+  }
+
+  Cities selectedCity;
+  setSelectedCity(Cities city) {
+    selectedCity = city;
+    notifyListeners();
   }
 
 //Therapists

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
-import 'package:ulomobile_project/screens/booking_screen.dart';
-import 'package:ulomobile_project/screens/therapist_screen.dart';
-import 'package:ulomobile_project/screens/treatment_screen.dart';
 
 import 'screens/welcome_screen.dart';
 
@@ -17,6 +14,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => NetworkProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'ULO MOBILE SPA',
         theme: ThemeData.light(),
         home: WelcomeScreen(),

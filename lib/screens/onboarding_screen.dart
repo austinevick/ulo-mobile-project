@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:ulomobile_project/screens/booking_screen.dart';
 import 'package:ulomobile_project/screens/login_screen.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/onboarding_list.dart';
+
+import 'pick_location.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   @override
