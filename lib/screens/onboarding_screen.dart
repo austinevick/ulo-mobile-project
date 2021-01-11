@@ -77,6 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 LoginButton(
                   buttonColor: Colors.yellow,
                   height: 50,
+                  radius: 50,
                   width: double.infinity,
                   child: Text(
                     'Book Now',

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:ulomobile_project/models/cities.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
@@ -25,6 +26,12 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
+  Treatments selectedDuration;
+  setSelectedDuration(Treatments duration) {
+    selectedDuration = duration;
+    notifyListeners();
+  }
+
 //Cities
   getCities() {
     Future<List<Cities>> cities = NetWorkRequest.getCities();
@@ -33,6 +40,8 @@ class NetworkProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  int get selectedIndex => cities.length;
 
   Cities selectedCity;
   setSelectedCity(Cities city) {

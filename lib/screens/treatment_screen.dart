@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/constants.dart';
+import 'package:ulomobile_project/models/cities.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 
 import 'treatment_detail_screen.dart';
 
 class TreatmentScreen extends StatelessWidget {
+  final Cities cities;
+
+  const TreatmentScreen({Key key, this.cities}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -23,7 +28,12 @@ class TreatmentScreen extends StatelessWidget {
                       final treatments = treatment.treatments[index];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(PageRouteBuilder(
+                          showBarModalBottomSheet(
+                              context: context,
+                              builder: (context) => TreatmentDetailScreen(
+                                    treatments: treatments,
+                                  ));
+                          /*Navigator.of(context).push(PageRouteBuilder(
                               transitionDuration: Duration(seconds: 1),
                               reverseTransitionDuration: Duration(seconds: 1),
                               pageBuilder:
@@ -36,7 +46,7 @@ class TreatmentScreen extends StatelessWidget {
                                       animation: animation,
                                       treatments: treatments),
                                 );
-                              }));
+                              }));*/
                         },
                         child: Hero(
                           tag: treatments.id,

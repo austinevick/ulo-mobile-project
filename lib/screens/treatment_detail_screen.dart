@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/treatment.dart';
+import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
+import 'package:ulomobile_project/widgets/treatment_description_dialog.dart';
 
-class TreatmentDetailScreen extends StatefulWidget {
+class TreatmentDetailScreen extends StatelessWidget {
   final Treatments treatments;
   final Animation animation;
 
@@ -10,15 +13,123 @@ class TreatmentDetailScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TreatmentDetailScreenState createState() => _TreatmentDetailScreenState();
-}
-
-class _TreatmentDetailScreenState extends State<TreatmentDetailScreen> {
-  bool isExpanded = false;
-  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return Consumer<NetworkProvider>(
+      builder: (context, treatmentsDuration, child) => Container(
+        child: Column(
+          children: [
+            Container(
+                height: height / 3,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          'https://images.ulomobilespa.com/treatments/' +
+                              treatments.image,
+                        )))),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Spacer(flex: 2),
+                  Text(
+                    treatments.name,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(
+                      Icons.more_horiz,
+                      size: 32,
+                    ),
+                    onPressed: () {
+                      showGeneralDialog(
+                          barrierColor: Colors.black.withOpacity(0.5),
+                          transitionBuilder: (context, a1, a2, widget) {
+                            return Transform.scale(
+                                scale: a1.value,
+                                child: Opacity(
+                                  opacity: a1.value,
+                                  child: TreatmentDescriptionDialog(
+                                    treatments: treatments,
+                                  ),
+                                ));
+                          },
+                          transitionDuration: Duration(milliseconds: 400),
+                          barrierDismissible: true,
+                          barrierLabel: '',
+                          context: context,
+                          pageBuilder: (context, animation1, animation2) {});
+                    },
+                  )
+                ],
+              ),
+            ),
+            Column(
+                children: List.generate(treatments.duration.length, (index) {
+              final duration = treatments.duration[index];
+              return GestureDetector(
+                onTap: () {
+                  print(duration);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Material(
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              duration.length,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '\$' + duration.price.toString(),
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Spacer()
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            })),
+            Spacer(),
+            LoginButton(
+              radius: 0,
+              buttonColor: Colors.yellow,
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (ctx) => null));
+              },
+              height: 75,
+              child: Text(
+                'Continue',
+                style: TextStyle(fontSize: 25),
+              ),
+              width: double.infinity,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -64,17 +175,33 @@ class _TreatmentDetailScreenState extends State<TreatmentDetailScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: isExpanded
-                          ? const EdgeInsets.only(top: 25)
-                          : const EdgeInsets.all(16),
-                      child: Text(
-                        widget.treatments.name,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                    Row(
+                      children: [
+                        Spacer(
+                          flex: 2,
                         ),
-                      ),
+                        Text(
+                          widget.treatments.name,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          iconSize: 32,
+                          icon: isExpanded
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                )
+                              : Icon(Icons.keyboard_arrow_up),
+                          onPressed: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          },
+                        )
+                      ],
                     ),
                     Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -94,70 +221,70 @@ class _TreatmentDetailScreenState extends State<TreatmentDetailScreen> {
                           fontWeight: FontWeight.bold,
                         )),
                     Column(
-                      children: widget.treatments.duration
-                          .map((map) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Material(
-                                  elevation: 5,
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Container(
-                                    height: 50,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(map.length),
-                                        ),
-                                        Spacer(),
-                                        Text('\$' + map.price.toString()),
-                                        Spacer()
-                                      ],
+                        children: List.generate(
+                            widget.treatments.duration.length, (index) {
+                      final duration = widget.treatments.duration[index];
+                      return GestureDetector(
+                        onTap: () {
+                          print(duration);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            elevation: 5,
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              height: 60,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      duration.length,
+                                      style: TextStyle(fontSize: 18),
                                     ),
                                   ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                    LoginButton(
-                      buttonColor: Colors.yellow,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (ctx) => null));
-                      },
-                      height: 50,
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      width: double.infinity,
-                    )
+                                  Spacer(),
+                                  Text(
+                                    '\$' + duration.price.toString(),
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Spacer()
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    })),
                   ],
                 ),
               ),
             ),
           ),
           Positioned(
-              right: 0,
-              top: isExpanded ? 12 : 250,
-              child: IconButton(
-                iconSize: 32,
-                icon: isExpanded
-                    ? Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.white,
-                      )
-                    : Icon(Icons.keyboard_arrow_up),
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-              )),
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: LoginButton(
+              radius: 0,
+              buttonColor: Colors.yellow,
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (ctx) => null));
+              },
+              height: 65,
+              child: Text(
+                'Continue',
+                style: TextStyle(fontSize: 20),
+              ),
+              width: double.infinity,
+            ),
+          )
         ],
       ),
     );
-  }
-}
+  
+*/

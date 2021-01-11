@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
@@ -5,16 +6,15 @@ import 'package:ulomobile_project/screens/treatment_screen.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
 class PickLocationScreen extends StatelessWidget {
-  final int selectedValue = 0;
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
       builder: (context, cities, child) => Container(
-        height: MediaQuery.of(context).size.height / 2.5,
+        height: MediaQuery.of(context).size.height / 2.2,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12.0),
               child: Text(
                 'Pick a location',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -30,27 +30,40 @@ class PickLocationScreen extends StatelessWidget {
                       children: List.generate(
                           cities.cities.length,
                           (index) => Card(
+                                color:
+                                    cities.selectedCity == cities.cities[index]
+                                        ? Colors.green
+                                        : Colors.white,
                                 child: ListTile(
-                                  onTap: () {},
-                                  trailing: Radio(
-                                    value: cities.cities[index],
-                                    groupValue: cities.selectedCity,
-                                    onChanged: (value) {
-                                      cities.setSelectedCity(value);
-                                      print(value);
-                                    },
+                                  onTap: () {
+                                    cities
+                                        .setSelectedCity(cities.cities[index]);
+                                  },
+                                  title: Text(
+                                    cities.cities[index].name,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: cities.selectedCity ==
+                                                cities.cities[index]
+                                            ? Colors.white
+                                            : Colors.black),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  title: Text(cities.cities[index].name),
                                 ),
                               ))),
             ),
             LoginButton(
+              radius: 50,
               buttonColor: Colors.yellow,
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => TreatmentScreen()));
-              },
+              onPressed: cities.selectedCity == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => TreatmentScreen(
+                                cities: cities.selectedCity,
+                              )));
+                    },
               height: 50,
               child: Text(
                 'Continue',
