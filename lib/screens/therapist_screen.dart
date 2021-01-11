@@ -7,21 +7,7 @@ import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 
 import 'therapist_detail_screen.dart';
 
-class TherapistsScreen extends StatefulWidget {
-  @override
-  _TherapistsScreenState createState() => _TherapistsScreenState();
-}
-
-class _TherapistsScreenState extends State<TherapistsScreen> {
-  @override
-  void initState() {
-    Provider.of<NetworkProvider>(
-      context,
-      listen: false,
-    ).getTherapists();
-    super.initState();
-  }
-
+class TherapistsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -29,14 +15,29 @@ class _TherapistsScreenState extends State<TherapistsScreen> {
           appBar: AppBar(
             title: Text('Therapists'),
           ),
-          body: ListView.builder(
+          body: GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemCount: therapist.therapists.length,
             itemBuilder: (context, index) {
               final therapists = therapist.therapists[index];
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2),
                 child: GestureDetector(
-                  onTap: () => openDetailPage(therapists),
+                  onTap: () => Navigator.of(context).push(PageRouteBuilder(
+                      transitionDuration: Duration(seconds: 1),
+                      reverseTransitionDuration: Duration(seconds: 1),
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        final curvedAnimation = CurvedAnimation(
+                            curve: Interval(0, 0.5), parent: animation);
+                        return FadeTransition(
+                          opacity: curvedAnimation,
+                          child: TherapistDetailScreen(
+                            animation: animation,
+                            therapists: therapists,
+                          ),
+                        );
+                      })),
                   child: ImageWidget(
                     therapists: therapists,
                   ),
@@ -47,20 +48,5 @@ class _TherapistsScreenState extends State<TherapistsScreen> {
     );
   }
 
-  openDetailPage(Therapists therapists) {
-    Navigator.of(context).push(PageRouteBuilder(
-        transitionDuration: Duration(seconds: 1),
-        reverseTransitionDuration: Duration(seconds: 1),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          final curvedAnimation =
-              CurvedAnimation(curve: Interval(0, 0.5), parent: animation);
-          return FadeTransition(
-            opacity: curvedAnimation,
-            child: TherapistDetailScreen(
-              animation: animation,
-              therapists: therapists,
-            ),
-          );
-        }));
-  }
+  openDetailPage(Therapists therapists) {}
 }

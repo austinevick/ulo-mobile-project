@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/screens/therapist_screen.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/treatment_description_dialog.dart';
 
@@ -70,19 +71,28 @@ class TreatmentDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+            Text('Duration',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                )),
             Column(
                 children: List.generate(treatments.duration.length, (index) {
               final duration = treatments.duration[index];
               return GestureDetector(
                 onTap: () {
                   print(duration);
+                  treatmentsDuration.setSelectedDuration(duration);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Material(
-                    elevation: 5,
+                    elevation: 3,
                     borderRadius: BorderRadius.circular(8),
                     child: Container(
+                      color: treatmentsDuration.selectedDuration == duration
+                          ? Colors.green
+                          : Colors.white,
                       height: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,13 +101,25 @@ class TreatmentDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               duration.length,
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: treatmentsDuration.selectedDuration ==
+                                        duration
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             ),
                           ),
                           Spacer(),
                           Text(
                             '\$' + duration.price.toString(),
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: treatmentsDuration.selectedDuration ==
+                                      duration
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                           Spacer()
                         ],
@@ -112,13 +134,13 @@ class TreatmentDetailScreen extends StatelessWidget {
               radius: 0,
               buttonColor: Colors.yellow,
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => null));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => TherapistsScreen()));
               },
-              height: 75,
+              height: 65,
               child: Text(
                 'Continue',
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 20),
               ),
               width: double.infinity,
             ),

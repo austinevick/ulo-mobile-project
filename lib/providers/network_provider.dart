@@ -26,8 +26,9 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
-  Treatments selectedDuration;
-  setSelectedDuration(Treatments duration) {
+// set selected duration
+  Durations selectedDuration;
+  setSelectedDuration(Durations duration) {
     selectedDuration = duration;
     notifyListeners();
   }
@@ -41,8 +42,7 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
-  int get selectedIndex => cities.length;
-
+  // set selected city
   Cities selectedCity;
   setSelectedCity(Cities city) {
     selectedCity = city;

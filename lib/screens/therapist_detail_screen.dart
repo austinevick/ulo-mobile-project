@@ -32,11 +32,17 @@ class TherapistDetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
-            child: Column(
-              children: [
-                Text(therapists.emailAddress),
-                Text(therapists.credentials),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(therapists.emailAddress),
+                  Text(therapists.credentials),
+                  Column(
+                      children:
+                          therapists.desc.map((map) => Text(map)).toList())
+                ],
+              ),
             ),
           )
         ],

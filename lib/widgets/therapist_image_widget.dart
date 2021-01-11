@@ -10,13 +10,15 @@ class ImageWidget extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Hero(
-            tag: therapists.id,
-            child: CircleAvatar(
-              radius: 80,
-              backgroundImage: NetworkImage(
-                  'http://images.ulomobilespa.com/therapists/' +
-                      therapists.avatar),
+          Expanded(
+            child: Hero(
+              tag: therapists.id,
+              child: CircleAvatar(
+                radius: 60,
+                backgroundImage: NetworkImage(
+                    'http://images.ulomobilespa.com/therapists/' +
+                        therapists.avatar),
+              ),
             ),
           ),
           Padding(

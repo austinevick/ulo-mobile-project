@@ -53,7 +53,7 @@ class PickLocationScreen extends StatelessWidget {
                               ))),
             ),
             LoginButton(
-              radius: 50,
+              radius: 0,
               buttonColor: Colors.yellow,
               onPressed: cities.selectedCity == null
                   ? null
@@ -64,7 +64,7 @@ class PickLocationScreen extends StatelessWidget {
                                 cities: cities.selectedCity,
                               )));
                     },
-              height: 50,
+              height: 65,
               child: Text(
                 'Continue',
                 style: TextStyle(fontSize: 20),

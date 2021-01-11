@@ -29,6 +29,9 @@ class TreatmentScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           showBarModalBottomSheet(
+                              shape: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
                               context: context,
                               builder: (context) => TreatmentDetailScreen(
                                     treatments: treatments,
