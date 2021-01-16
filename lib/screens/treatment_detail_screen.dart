@@ -133,10 +133,13 @@ class TreatmentDetailScreen extends StatelessWidget {
             LoginButton(
               radius: 0,
               buttonColor: Colors.yellow,
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => TherapistsScreen()));
-              },
+              onPressed: treatmentsDuration.selectedDuration == null
+                  ? null
+                  : () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) =>
+                              TherapistsScreen(treatments: treatments)));
+                    },
               height: 65,
               child: Text(
                 'Continue',

@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulomobile_project/constants.dart';
-import 'package:ulomobile_project/models/therapists.dart';
+import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 
 import 'therapist_detail_screen.dart';
 
-class TherapistsScreen extends StatelessWidget {
+class TherapistsScreen extends StatefulWidget {
+  final Treatments treatments;
+
+  const TherapistsScreen({Key key, this.treatments}) : super(key: key);
+
+  @override
+  _TherapistsScreenState createState() => _TherapistsScreenState();
+}
+
+class _TherapistsScreenState extends State<TherapistsScreen> {
+  @override
+  void initState() {
+    Provider.of<NetworkProvider>(context, listen: false).getTherapists();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -15,7 +29,27 @@ class TherapistsScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text('Therapists'),
           ),
-          body: GridView.builder(
+          body: ListView(
+              children: List.generate(
+                  therapist.therapists.length,
+                  (i) => Column(
+                        children: [
+                          ListTile(
+                            title: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(therapist.therapists[i].avatar),
+                            ),
+                          ),
+                          Column(
+                            children:
+                                List.generate(therapist.therapists.length, (i) {
+                              return Text(therapist.therapists[i].credentials);
+                            }),
+                          )
+                        ],
+                      )))
+
+          /* GridView.builder(
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemCount: therapist.therapists.length,
@@ -44,9 +78,8 @@ class TherapistsScreen extends StatelessWidget {
                 ),
               );
             },
-          )),
+          )*/
+          ),
     );
   }
-
-  openDetailPage(Therapists therapists) {}
 }

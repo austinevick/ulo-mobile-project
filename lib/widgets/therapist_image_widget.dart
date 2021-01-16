@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 
 class ImageWidget extends StatelessWidget {
@@ -16,7 +17,7 @@ class ImageWidget extends StatelessWidget {
               child: CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(
-                    'http://images.ulomobilespa.com/therapists/' +
+                    'https://images.ulomobilespa.com/therapists/' +
                         therapists.avatar),
               ),
             ),

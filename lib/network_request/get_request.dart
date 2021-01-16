@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 
 class NetWorkRequest {
   // Get list of treatments
-  static Future<List<Treatments>> fetchTreatmentList() async {
+  static Future<List<Treatments>> fetchTreatmentList(int id) async {
+    final treatmentUrl = 'https://api.ulomobilespa.com/cities/$id/treatments';
     List<Treatments> treatments = [];
     final response = await http.get(treatmentUrl);
     try {
@@ -49,21 +50,20 @@ class NetWorkRequest {
 // Get list of therapist
   static Future<List<Therapists>> getTherapists() async {
     List<Therapists> therapists = [];
-    try {
-      final response = await http.get(therapistUrl);
 
-      if (response.statusCode == 200) {
-        final result = jsonDecode(response.body);
-        List<dynamic> data = result;
-        print(data);
+    final String therapistUrl =
+        'https://api.ulomobilespa.com/treatments/2/therapists';
+    final response = await http.get(therapistUrl);
 
-        data.forEach((map) => therapists.add(Therapists.fromMap(map)));
-      }
-      throw Exception('Unable to fetch data');
-    } catch (e) {
-      print(e);
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      final data = result;
+      //  print(data);
+
+      data.forEach((map) => therapists.add(Therapists.fromJson(map)));
+      return therapists;
+      // return data.map((map) => Therapists.fromMap(map)).toList();
     }
-
-    return therapists;
+    throw Exception('Unable to fetch data');
   }
 }

@@ -36,6 +36,7 @@ class PickLocationScreen extends StatelessWidget {
                                         : Colors.white,
                                 child: ListTile(
                                   onTap: () {
+                                    print(cities.selectedCity);
                                     cities
                                         .setSelectedCity(cities.cities[index]);
                                   },

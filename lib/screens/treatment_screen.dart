@@ -7,16 +7,30 @@ import 'package:ulomobile_project/providers/network_provider.dart';
 
 import 'treatment_detail_screen.dart';
 
-class TreatmentScreen extends StatelessWidget {
+class TreatmentScreen extends StatefulWidget {
   final Cities cities;
 
   const TreatmentScreen({Key key, this.cities}) : super(key: key);
+
+  @override
+  _TreatmentScreenState createState() => _TreatmentScreenState();
+}
+
+class _TreatmentScreenState extends State<TreatmentScreen> {
+  @override
+  void initState() {
+    Provider.of<NetworkProvider>(context, listen: false).getTreatments(
+      widget.cities.id,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
         builder: (context, treatment, child) => Scaffold(
             appBar: AppBar(
-              title: Text('Pick a Treatments'),
+              title: Text('Pick a Treatments ' + widget.cities.id.toString()),
             ),
             body: treatment.treatments.isEmpty
                 ? Center(
