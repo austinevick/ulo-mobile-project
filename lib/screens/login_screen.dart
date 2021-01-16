@@ -31,10 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40,
               ),
               TextFieldWidget(
-                labelText: 'Email Address',
+                hintText: 'Email Address',
               ),
               TextFieldWidget(
-                labelText: 'Password',
+                hintText: 'Password',
                 icon: IconButton(
                   icon: Icon(Icons.visibility),
                   onPressed: () {},

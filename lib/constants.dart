@@ -9,5 +9,7 @@ final contentStyle = TextStyle(
   fontSize: 18,
   color: Colors.white,
 );
-
-//String url(String endpoints) => 'https://api.ulomobilespa.com/$endpoints';
+const clientInfoStyle1 = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+);

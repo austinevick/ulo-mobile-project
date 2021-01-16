@@ -1,4 +1,5 @@
-/*class Therapists {
+/*
+class Therapists {
   final int id;
   final String name;
   final String avatar;
@@ -6,10 +7,10 @@
   final String phone;
   final String credentials;
   final String membershipId;
-  final List<String> desc;
+  final List<String> description;
   final List<int> treatmentIds;
   final List<DefaultAvailability> defaultAvailability;
-  final List<DailyAvailability> dailyAvailability;
+  // final List<DailyAvailability> dailyAvailability;
   Therapists({
     this.id,
     this.name,
@@ -18,19 +19,19 @@
     this.phone,
     this.membershipId,
     this.credentials,
-    this.desc,
+    this.description,
     this.treatmentIds,
     this.defaultAvailability,
-    this.dailyAvailability,
+    // this.dailyAvailability,
   });
 
   factory Therapists.fromMap(Map<String, dynamic> map) {
     List<String> description = [];
     List<int> treatmentIds = [];
-    //map['treatmentIds'].forEach((data) => treatmentIds.add(data));
+    map['treatmentIds'].forEach((data) => treatmentIds.add(data));
     List<DefaultAvailability> defaultAvailability = [];
-    // map['defaultAvailability'].forEach(
-    //   (map) => defaultAvailability.add(DefaultAvailability.fromMap(map)));
+    map['defaultAvailability'].forEach(
+        (map) => defaultAvailability.add(DefaultAvailability.fromMap(map)));
     map['description'].forEach((data) => description.add(data));
 
     return Therapists(
@@ -42,15 +43,15 @@
       phone: map['phone'],
       credentials: map['credentials'],
       desc: description, //List<String>.from(map['description'].map((m) => m)),
-      //treatmentIds: List<int>.from(map['treatmentIds'].map((x) => x))
-      //  .toList(), //treatmentIds,
-      //  defaultAvailability: defaultAvailability,
+      treatmentIds: List<int>.from(map['treatmentIds'].map((x) => x))
+          .toList(), //treatmentIds,
+      defaultAvailability: defaultAvailability,
     );
   }
 
   @override
   String toString() {
-    return 'Therapists(id: $id, name: $name, avatar: $avatar, emailAddress: $emailAddress, phone: $phone, credentials: $credentials, desc: $desc, defaultAvailability: $defaultAvailability, dailyAvailability: $dailyAvailability)';
+    return 'Therapists(id: $id, name: $name, avatar: $avatar, emailAddress: $emailAddress, phone: $phone, credentials: $credentials, desc: $desc, defaultAvailability: $defaultAvailability)';
   }
 }
 
@@ -69,22 +70,7 @@ class DefaultAvailability {
   String toString() =>
       'DefaultAvailability(key: $key, displayValue: $displayValue)';
 }
-
-class DailyAvailability {
-  final List<String> dailyAvailability;
-  DailyAvailability({
-    this.dailyAvailability,
-  });
-
-  factory DailyAvailability.fromMap(Map<String, dynamic> map) {
-    List<DailyAvailability> availabilityTime = [];
-    // map['dailyAvailability']['1571889600000'].forEach((map)=>)
-    return DailyAvailability();
-  }
-
-  @override
-  String toString() => 'DailyAvailability(time: $dailyAvailability)';
-}*/
+*/
 
 // To parse this JSON data, do
 //
@@ -106,7 +92,7 @@ class Therapists {
     this.avatar,
     this.treatmentIds,
     this.defaultAvailability,
-    this.dailyAvailability,
+    // this.dailyAvailability,
     this.emailAddress,
     this.phone,
     this.credentials,
@@ -119,37 +105,36 @@ class Therapists {
   String name;
   String avatar;
   List<int> treatmentIds;
-  List<Availability> defaultAvailability;
-  Map<String, List<Availability>> dailyAvailability;
+  List<DefaultAvailability> defaultAvailability;
+  //Map<String, List<Availability>> dailyAvailability;
   String emailAddress;
   String phone;
   String credentials;
   List<String> description;
   String membershipId;
 
-  factory Therapists.fromJson(Map<String, dynamic> json) => Therapists(
-        id: json["_id"],
-        therapistId: json["id"],
-        name: json["name"],
-        avatar: json["avatar"],
-        treatmentIds: List<int>.from(json["treatmentIds"].map((x) => x)),
-        defaultAvailability: List<Availability>.from(
-            json["defaultAvailability"].map((x) => Availability.fromJson(x))),
-        dailyAvailability: Map.from(json["dailyAvailability"]).map((k, v) =>
-            MapEntry<String, List<Availability>>(
-                k,
-                List<Availability>.from(
-                    v.map((x) => Availability.fromJson(x))))),
-        emailAddress:
-            json["emailAddress"] == null ? null : json["emailAddress"],
-        phone: json["phone"] == null ? null : json["phone"],
-        credentials: json["credentials"] == null ? null : json["credentials"],
-        description: json["description"] == null
-            ? null
-            : List<String>.from(json["description"].map((x) => x)),
-        membershipId:
-            json["membershipId"] == null ? null : json["membershipId"],
-      );
+  factory Therapists.fromJson(Map<String, dynamic> json) {
+    List<DefaultAvailability> defaultAvailability = [];
+    json['defaultAvailability'].forEach(
+        (map) => defaultAvailability.add(DefaultAvailability.fromMap(map)));
+    return Therapists(
+      id: json["_id"],
+      therapistId: json["id"],
+      name: json["name"],
+      avatar: json["avatar"],
+      treatmentIds: List<int>.from(json["treatmentIds"].map((x) => x)),
+      defaultAvailability: defaultAvailability //List<Availability>.from(
+      //json["defaultAvailability"].map((x) => Availability.fromJson(x))),
+      ,
+      emailAddress: json["emailAddress"] == null ? null : json["emailAddress"],
+      phone: json["phone"] == null ? null : json["phone"],
+      credentials: json["credentials"] == null ? null : json["credentials"],
+      description: json["description"] == null
+          ? null
+          : List<String>.from(json["description"].map((x) => x)),
+      membershipId: json["membershipId"] == null ? null : json["membershipId"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -157,11 +142,11 @@ class Therapists {
         "name": name,
         "avatar": avatar,
         "treatmentIds": List<dynamic>.from(treatmentIds.map((x) => x)),
-        "defaultAvailability":
-            List<dynamic>.from(defaultAvailability.map((x) => x.toJson())),
-        "dailyAvailability": Map.from(dailyAvailability).map((k, v) =>
-            MapEntry<String, dynamic>(
-                k, List<dynamic>.from(v.map((x) => x.toJson())))),
+        // "defaultAvailability":
+        //  List<dynamic>.from(defaultAvailability.map((x) => x.toJson())),
+        //"dailyAvailability": Map.from(dailyAvailability).map((k, v) =>
+        //  MapEntry<String, dynamic>(
+        //     k, List<dynamic>.from(v.map((x) => x.toJson())))),
         "emailAddress": emailAddress == null ? null : emailAddress,
         "phone": phone == null ? null : phone,
         "credentials": credentials == null ? null : credentials,
@@ -172,6 +157,23 @@ class Therapists {
       };
 }
 
+class DefaultAvailability {
+  final int key;
+  final String displayValue;
+
+  DefaultAvailability({this.key, this.displayValue});
+
+  factory DefaultAvailability.fromMap(Map<String, dynamic> map) {
+    return DefaultAvailability(
+        displayValue: map['displayValue'], key: map['key']);
+  }
+
+  @override
+  String toString() =>
+      'DefaultAvailability(key: $key, displayValue: $displayValue)';
+}
+
+/*
 class Availability {
   Availability({
     this.key,
@@ -237,3 +239,4 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
+*/

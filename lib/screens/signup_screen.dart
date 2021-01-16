@@ -36,23 +36,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 40,
               ),
               TextFieldWidget(
-                labelText: 'First Name',
+                hintText: 'First Name',
               ),
               TextFieldWidget(
-                labelText: 'Last Name',
+                hintText: 'Last Name',
               ),
               TextFieldWidget(
-                labelText: 'Email Address',
+                hintText: 'Email Address',
               ),
               TextFieldWidget(
-                labelText: 'Password',
+                hintText: 'Password',
                 icon: IconButton(
                   icon: Icon(Icons.visibility),
                   onPressed: () {},
                 ),
               ),
               TextFieldWidget(
-                labelText: 'Confirm Password',
+                hintText: 'Confirm Password',
               ),
               SizedBox(
                 height: 8,

@@ -45,7 +45,7 @@ class TreatmentDetailScreen extends StatelessWidget {
                   Spacer(),
                   IconButton(
                     icon: Icon(
-                      Icons.more_horiz,
+                      Icons.more_vert,
                       size: 32,
                     ),
                     onPressed: () {
@@ -130,23 +130,23 @@ class TreatmentDetailScreen extends StatelessWidget {
               );
             })),
             Spacer(),
-            LoginButton(
-              radius: 0,
-              buttonColor: Colors.yellow,
-              onPressed: treatmentsDuration.selectedDuration == null
-                  ? null
-                  : () {
+            treatmentsDuration.selectedDuration == null
+                ? Container()
+                : LoginButton(
+                    radius: 0,
+                    buttonColor: Colors.yellow,
+                    onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) =>
                               TherapistsScreen(treatments: treatments)));
                     },
-              height: 65,
-              child: Text(
-                'Continue',
-                style: TextStyle(fontSize: 20),
-              ),
-              width: double.infinity,
-            ),
+                    height: 65,
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    width: double.infinity,
+                  ),
           ],
         ),
       ),

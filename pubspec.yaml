@@ -39,6 +39,7 @@ dependencies:
   data_connection_checker: ^0.3.4
   scroll_app_bar: ^1.0.2
   shimmer: ^1.1.2
+  roundcheckbox: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:

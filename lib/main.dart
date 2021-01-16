@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/network_request/get_request.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/screens/client_information_screen.dart';
 
 import 'screens/welcome_screen.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ULO MOBILE SPA',
         theme: ThemeData.light(),
-        home: TestingPage(),
+        home: WelcomeScreen(),
       ),
     );
   }
@@ -34,46 +35,38 @@ class TestingPage extends StatefulWidget {
 }
 
 class _TestingPageState extends State<TestingPage> {
-  final String therapistUrl =
-      'https://api.ulomobilespa.com/treatments/2/therapists';
-  fetchData() async {
-    final res = await get(therapistUrl);
-    final result = jsonDecode(res.body);
-    final list = result;
-    print(list);
-    return list;
-  }
+  List<User> users = [
+    User(fname: 'John', lname: 'Petr', id: 1),
+    User(fname: 'John', lname: 'Petr', id: 2),
+    User(fname: 'John', lname: 'Petr', id: 3),
+  ];
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Testing'),
-      ),
-      body: FutureBuilder<List<Therapists>>(
-        future: NetWorkRequest.getTherapists(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: LinearProgressIndicator(),
-            );
-          } else {
-            return ListView(
-              children: List.generate(snapshot.data.length, (i) {
-                final t = snapshot.data[i];
-                return Column(
-                  children: [
-                    Text(t.credentials ?? ''),
-                    Column(
-                      children: t.description.map((m) => Text(m)).toList(),
-                    )
-                  ],
-                );
-              }),
-            );
-          }
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Testing'),
+        ),
+        body: Container(
+          child: ListView(
+            children: List.generate(
+                users.length,
+                (i) => CheckboxListTile(
+                      title: Text(users[i].fname),
+                      subtitle: Text(users[i].lname),
+                      onChanged: (v) {},
+                      value: users[i].id != null ? true : false,
+                    )),
+          ),
+        ));
   }
+}
+
+class User {
+  int id;
+  final String fname;
+  final String lname;
+
+  User({this.fname, this.id, this.lname});
 }

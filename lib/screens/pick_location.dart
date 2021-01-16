@@ -53,25 +53,25 @@ class PickLocationScreen extends StatelessWidget {
                                 ),
                               ))),
             ),
-            LoginButton(
-              radius: 0,
-              buttonColor: Colors.yellow,
-              onPressed: cities.selectedCity == null
-                  ? null
-                  : () {
+            cities.selectedCity == null
+                ? SizedBox.shrink()
+                : LoginButton(
+                    radius: 0,
+                    buttonColor: Colors.yellow,
+                    onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => TreatmentScreen(
                                 cities: cities.selectedCity,
                               )));
                     },
-              height: 65,
-              child: Text(
-                'Continue',
-                style: TextStyle(fontSize: 20),
-              ),
-              width: double.infinity,
-            )
+                    height: 65,
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    width: double.infinity,
+                  )
           ],
         ),
       ),

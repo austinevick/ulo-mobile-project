@@ -48,11 +48,18 @@ class NetworkProvider extends ChangeNotifier {
   }
 
 //Therapists
-  getTherapists() {
-    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists();
+  getTherapists(int id) {
+    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists(id);
     therapists.then((therapist) {
       this.therapists = therapist;
       notifyListeners();
     });
+  }
+
+  //Set selected availability
+  DefaultAvailability availability;
+  setAvailability(DefaultAvailability availability) {
+    this.availability = availability;
+    notifyListeners();
   }
 }

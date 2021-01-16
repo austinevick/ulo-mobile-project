@@ -55,58 +55,27 @@ class TherapistDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    therapists.emailAddress,
+                    therapists.emailAddress ?? '',
                   ),
                   Text(
-                    therapists.credentials,
+                    therapists.credentials ?? '',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.black,
                     ),
                   ),
-                  Column(
-                      children: therapists.description
-                          .map((map) => Text(
-                                map,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ))
-                          .toList()),
-                  Column(
-                    children: List.generate(
-                        therapists.defaultAvailability.length, (index) {
-                      final availability =
-                          therapists.defaultAvailability[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation: 3,
-                          borderRadius: BorderRadius.circular(8),
-                          child: Container(
-                            color: Colors.white,
-                            height: 60,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                /*Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    availability.displayValue,
+                  therapists.description == null
+                      ? Container()
+                      : Column(
+                          children: therapists.description
+                              .map((map) => Text(
+                                    map ?? '',
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Colors.black,
                                     ),
-                                  ),
-                                ),*/
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  )
+                                  ))
+                              .toList()),
                 ],
               ),
             )
