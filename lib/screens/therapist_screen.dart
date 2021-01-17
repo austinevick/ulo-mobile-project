@@ -5,6 +5,7 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 
 import 'therapist_detail_screen.dart';
@@ -101,23 +102,43 @@ class AvailabilityScreen extends StatelessWidget {
               children:
                   List.generate(therapists.defaultAvailability.length, (index) {
                 final availability = therapists.defaultAvailability[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(10),
-                    elevation: 3,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 60,
-                      child: CheckboxListTile(
-                        onChanged: (value) {},
-                        value: false,
-                        title: Text(
-                          availability.displayValue,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
+                return GestureDetector(
+                  onTap: () {
+                    print(availability);
+                    provider.setAvailability(availability);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 3,
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  availability.displayValue,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              AnimatedSwitcher(
+                                  duration: Duration(milliseconds: 300),
+                                  child: provider.availability == availability
+                                      ? CustomCheckBox(
+                                          color: Colors.green,
+                                        )
+                                      : CustomCheckBox())
+                            ],
                           ),
                         ),
                       ),

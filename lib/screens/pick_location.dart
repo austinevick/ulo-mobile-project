@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/treatment_screen.dart';
+import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
 class PickLocationScreen extends StatelessWidget {
@@ -27,31 +28,40 @@ class PickLocationScreen extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     )
                   : ListView(
-                      children: List.generate(
-                          cities.cities.length,
-                          (index) => Card(
-                                color:
-                                    cities.selectedCity == cities.cities[index]
-                                        ? Colors.green
-                                        : Colors.white,
-                                child: ListTile(
-                                  onTap: () {
-                                    print(cities.selectedCity);
-                                    cities
-                                        .setSelectedCity(cities.cities[index]);
-                                  },
-                                  title: Text(
-                                    cities.cities[index].name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: cities.selectedCity ==
-                                                cities.cities[index]
-                                            ? Colors.white
-                                            : Colors.black),
-                                    textAlign: TextAlign.center,
+                      children: List.generate(cities.cities.length, (index) {
+                      final city = cities.cities[index];
+                      return GestureDetector(
+                        onTap: () => cities.setSelectedCity(city),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                              child: Container(
+                            child: Row(
+                              children: [
+                                Spacer(),
+                                Center(
+                                  child: Text(
+                                    city.name,
+                                    style: TextStyle(fontSize: 18),
                                   ),
                                 ),
-                              ))),
+                                Spacer(),
+                                AnimatedSwitcher(
+                                    duration: Duration(milliseconds: 300),
+                                    child: cities.selectedCity ==
+                                            cities.cities[index]
+                                        ? CustomCheckBox(
+                                            color: Colors.green,
+                                          )
+                                        : CustomCheckBox(
+                                            color: Colors.white,
+                                          )),
+                              ],
+                            ),
+                          )),
+                        ),
+                      );
+                    })),
             ),
             cities.selectedCity == null
                 ? SizedBox.shrink()

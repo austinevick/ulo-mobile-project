@@ -1,12 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:ulomobile_project/models/therapists.dart';
-import 'package:ulomobile_project/network_request/get_request.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
-import 'package:ulomobile_project/screens/client_information_screen.dart';
 
 import 'screens/welcome_screen.dart';
 

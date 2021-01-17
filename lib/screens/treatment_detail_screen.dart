@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/therapist_screen.dart';
+import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/treatment_description_dialog.dart';
 
@@ -88,11 +89,10 @@ class TreatmentDetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Material(
                     elevation: 3,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color: treatmentsDuration.selectedDuration == duration
-                          ? Colors.green
-                          : Colors.white,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
                       height: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,25 +103,27 @@ class TreatmentDetailScreen extends StatelessWidget {
                               duration.length,
                               style: TextStyle(
                                 fontSize: 18,
-                                color: treatmentsDuration.selectedDuration ==
-                                        duration
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          Spacer(),
                           Text(
                             '\$' + duration.price.toString(),
                             style: TextStyle(
                               fontSize: 18,
-                              color: treatmentsDuration.selectedDuration ==
-                                      duration
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: Colors.black,
                             ),
                           ),
-                          Spacer()
+                          AnimatedSwitcher(
+                              duration: Duration(milliseconds: 300),
+                              child: treatmentsDuration.selectedDuration ==
+                                      duration
+                                  ? CustomCheckBox(
+                                      color: Colors.green,
+                                    )
+                                  : CustomCheckBox(
+                                      color: Colors.white,
+                                    ))
                         ],
                       ),
                     ),
