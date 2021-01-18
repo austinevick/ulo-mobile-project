@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 
 class LoginButton extends StatelessWidget {
   final double height;
@@ -19,12 +20,15 @@ class LoginButton extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-          color: buttonColor, borderRadius: BorderRadius.circular(radius)),
-      child: FlatButton(onPressed: onPressed, child: child),
+    return FadeIn(
+      duration: Duration(milliseconds: 500),
+      child: Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+            color: buttonColor, borderRadius: BorderRadius.circular(radius)),
+        child: FlatButton(onPressed: onPressed, child: child),
+      ),
     );
   }
 }

@@ -15,50 +15,62 @@ class PickLocationScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.only(top: 12),
               child: Text(
                 'Pick a location',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
-            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Divider(
+                thickness: 4,
+              ),
+            ),
             Expanded(
               child: cities.cities.isEmpty
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : ListView(
+                  : Column(
                       children: List.generate(cities.cities.length, (index) {
                       final city = cities.cities[index];
                       return GestureDetector(
                         onTap: () => cities.setSelectedCity(city),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(2.0),
                           child: Material(
+                              elevation: 2,
+                              borderRadius: BorderRadius.circular(10),
                               child: Container(
-                            child: Row(
-                              children: [
-                                Spacer(),
-                                Center(
-                                  child: Text(
-                                    city.name,
-                                    style: TextStyle(fontSize: 18),
-                                  ),
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Center(
+                                      child: Text(
+                                        city.name,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    AnimatedSwitcher(
+                                        duration: Duration(milliseconds: 300),
+                                        child: cities.selectedCity ==
+                                                cities.cities[index]
+                                            ? CustomCheckBox(
+                                                color: Colors.green,
+                                              )
+                                            : CustomCheckBox(
+                                                color: Colors.white,
+                                              )),
+                                  ],
                                 ),
-                                Spacer(),
-                                AnimatedSwitcher(
-                                    duration: Duration(milliseconds: 300),
-                                    child: cities.selectedCity ==
-                                            cities.cities[index]
-                                        ? CustomCheckBox(
-                                            color: Colors.green,
-                                          )
-                                        : CustomCheckBox(
-                                            color: Colors.white,
-                                          )),
-                              ],
-                            ),
-                          )),
+                              )),
                         ),
                       );
                     })),

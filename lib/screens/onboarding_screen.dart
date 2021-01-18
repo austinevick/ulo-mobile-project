@@ -1,6 +1,8 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ulomobile_project/screens/login_screen.dart';
+import 'package:ulomobile_project/widgets/custom_alert_dialog.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/onboarding_list.dart';
 
@@ -27,7 +29,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 print(value);
               },
               children: pages),
-          currentPage == 0
+          /*  currentPage == 0
               ? Positioned(
                   bottom: 280,
                   left: 16,
@@ -46,7 +48,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                   ),
                 )
-              : Container(),
+              : Container(),*/
           Positioned(
             bottom: 16,
             left: 16,
@@ -86,11 +88,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       fontSize: 20,
                     ),
                   ),
-                  onPressed: () {
-                    showBarModalBottomSheet(
-                        builder: (context) => PickLocationScreen(),
-                        context: context);
-                  },
+                  onPressed: () => checkConnection(),
                 ),
               ],
             ),
@@ -98,5 +96,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     );
+  }
+
+  checkConnection() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      showDialog(
+          context: context,
+          builder: (ctx) => CustomAlertDialog(
+                title: 'Internet Error',
+                content: Text('Please check your internet connection'),
+              ));
+    } else if (result == ConnectivityResult.mobile) {
+      showBarModalBottomSheet(
+          builder: (context) => PickLocationScreen(), context: context);
+    } else if (result == ConnectivityResult.wifi) {
+      showBarModalBottomSheet(
+          builder: (context) => PickLocationScreen(), context: context);
+    }
   }
 }

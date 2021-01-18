@@ -27,14 +27,22 @@ class _TreatmentScreenState extends State<TreatmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var city = widget.cities.id == 2 || widget.cities.id == 3;
+
     return Consumer<NetworkProvider>(
-        builder: (context, treatment, child) => Scaffold(
-            appBar: AppBar(
-              title: Text('Pick a Treatments'),
-            ),
-            body: widget.cities.id == 2 || widget.cities.id == 3
-                ? Image.asset('images/coming_soon.png')
-                : treatment.treatments.isEmpty
+        builder: (context, treatment, child) => city
+            ? Scaffold(
+                body: Image.asset(
+                  'images/coming_soon.png',
+                  fit: BoxFit.fill,
+                  height: MediaQuery.of(context).size.height,
+                ),
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  title: Text('Pick a Treatments'),
+                ),
+                body: treatment.treatments.isEmpty
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
