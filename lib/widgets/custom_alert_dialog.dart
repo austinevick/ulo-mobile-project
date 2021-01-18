@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:system_settings/system_settings.dart';
 
@@ -10,6 +13,12 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return CupertinoAlertDialog(
+        title: Text(title),
+        content: content,
+      );
+    }
     return AlertDialog(
       title: Text(title),
       content: content,

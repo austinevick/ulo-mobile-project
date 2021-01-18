@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/screens/login_screen.dart';
 import 'package:ulomobile_project/widgets/custom_alert_dialog.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
@@ -88,7 +89,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       fontSize: 20,
                     ),
                   ),
-                  onPressed: () => checkConnection(),
+                  onPressed: () =>
+                      NetworkConnectivityChecker.checkConnection(context, () {
+                    showBarModalBottomSheet(
+                        builder: (context) => PickLocationScreen(),
+                        context: context);
+                  }),
                 ),
               ],
             ),
@@ -96,23 +102,5 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     );
-  }
-
-  checkConnection() async {
-    var result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.none) {
-      showDialog(
-          context: context,
-          builder: (ctx) => CustomAlertDialog(
-                title: 'Internet Error',
-                content: Text('Please check your internet connection'),
-              ));
-    } else if (result == ConnectivityResult.mobile) {
-      showBarModalBottomSheet(
-          builder: (context) => PickLocationScreen(), context: context);
-    } else if (result == ConnectivityResult.wifi) {
-      showBarModalBottomSheet(
-          builder: (context) => PickLocationScreen(), context: context);
-    }
   }
 }

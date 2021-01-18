@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/treatment_screen.dart';
 import 'package:ulomobile_project/widgets/custom_check_box.dart';
@@ -80,13 +81,14 @@ class PickLocationScreen extends StatelessWidget {
                 : LoginButton(
                     radius: 0,
                     buttonColor: Colors.yellow,
-                    onPressed: () {
+                    onPressed: () =>
+                        NetworkConnectivityChecker.checkConnection(context, () {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => TreatmentScreen(
                                 cities: cities.selectedCity,
                               )));
-                    },
+                    }),
                     height: 65,
                     child: Text(
                       'Continue',

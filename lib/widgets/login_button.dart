@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeIn(
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 1000),
       child: Container(
         height: height,
         width: width,

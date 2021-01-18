@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/therapist_screen.dart';
@@ -137,11 +138,12 @@ class TreatmentDetailScreen extends StatelessWidget {
                 : LoginButton(
                     radius: 0,
                     buttonColor: Colors.yellow,
-                    onPressed: () {
+                    onPressed: () =>
+                        NetworkConnectivityChecker.checkConnection(context, () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) =>
                               TherapistsScreen(treatments: treatments)));
-                    },
+                    }),
                     height: 65,
                     child: Text(
                       'Continue',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/constants.dart';
+import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/models/cities.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 
@@ -51,7 +52,9 @@ class _TreatmentScreenState extends State<TreatmentScreen> {
                         itemBuilder: (context, index) {
                           final treatments = treatment.treatments[index];
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () =>
+                                NetworkConnectivityChecker.checkConnection(
+                                    context, () {
                               showBarModalBottomSheet(
                                   shape: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -60,7 +63,9 @@ class _TreatmentScreenState extends State<TreatmentScreen> {
                                   builder: (context) => TreatmentDetailScreen(
                                         treatments: treatments,
                                       ));
-                              /*Navigator.of(context).push(PageRouteBuilder(
+                            })
+
+                            /*Navigator.of(context).push(PageRouteBuilder(
                               transitionDuration: Duration(seconds: 1),
                               reverseTransitionDuration: Duration(seconds: 1),
                               pageBuilder:
@@ -74,7 +79,7 @@ class _TreatmentScreenState extends State<TreatmentScreen> {
                                       treatments: treatments),
                                 );
                               }));*/
-                            },
+                            ,
                             child: Hero(
                               tag: treatments.id,
                               child: Padding(
