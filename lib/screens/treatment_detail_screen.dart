@@ -4,6 +4,7 @@ import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/therapist_screen.dart';
+import 'package:ulomobile_project/widgets/animated_dialog.dart';
 import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/treatment_description_dialog.dart';
@@ -46,30 +47,15 @@ class TreatmentDetailScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   IconButton(
-                    icon: Icon(
-                      Icons.more_vert,
-                      size: 32,
-                    ),
-                    onPressed: () {
-                      showGeneralDialog(
-                          barrierColor: Colors.black.withOpacity(0.5),
-                          transitionBuilder: (context, a1, a2, widget) {
-                            return Transform.scale(
-                                scale: a1.value,
-                                child: Opacity(
-                                  opacity: a1.value,
-                                  child: TreatmentDescriptionDialog(
-                                    treatments: treatments,
-                                  ),
-                                ));
-                          },
-                          transitionDuration: Duration(milliseconds: 400),
-                          barrierDismissible: true,
-                          barrierLabel: '',
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 28,
+                      ),
+                      onPressed: () => animatedDialog(
                           context: context,
-                          pageBuilder: (context, animation1, animation2) {});
-                    },
-                  )
+                          child: TreatmentDescriptionDialog(
+                            treatments: treatments,
+                          )))
                 ],
               ),
             ),

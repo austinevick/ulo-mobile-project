@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/widgets/animated_dialog.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 
 import 'therapist_availability_screen.dart';
@@ -45,47 +47,36 @@ class _TherapistsScreenState extends State<TherapistsScreen> {
                       padding: const EdgeInsets.all(2),
                       child: GestureDetector(
                         onTap: therapists.defaultAvailability.isEmpty
-                            ? () => showGeneralDialog(
-                                barrierColor: Colors.black.withOpacity(0.5),
-                                transitionBuilder: (context, a1, a2, widget) {
-                                  return Transform.scale(
-                                    scale: a1.value,
-                                    child: Opacity(
-                                        opacity: a1.value,
-                                        child: Dialog(
-                                          child: Container(
-                                            height: 100,
-                                            width: double.infinity,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Center(
-                                                child: Text(
-                                                  'There is no specified time for selected therapist',
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                  );
-                                },
-                                transitionDuration: Duration(milliseconds: 400),
-                                barrierDismissible: true,
-                                barrierLabel: '',
+                            ? () => animatedDialog(
                                 context: context,
-                                pageBuilder:
-                                    (context, animation1, animation2) {})
-                            : () => showBarModalBottomSheet(
-                                context: context,
-                                bounce: false,
-                                shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none),
-                                builder: (context) => AvailabilityScreen(
-                                      therapists: therapists,
-                                    )),
+                                child: Dialog(
+                                  child: Container(
+                                    height: 100,
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Text(
+                                          'There is no specified time for selected therapist',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                            : () => NetworkConnectivityChecker.checkConnection(
+                                    context, () {
+                                  showBarModalBottomSheet(
+                                      context: context,
+                                      bounce: false,
+                                      shape: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide.none),
+                                      builder: (context) => AvailabilityScreen(
+                                            therapists: therapists,
+                                          ));
+                                }),
                         child: ImageWidget(
                           therapists: therapists,
                         ),

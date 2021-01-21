@@ -1,9 +1,6 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ulomobile_project/internet_connectivity.dart';
-import 'package:ulomobile_project/screens/login_screen.dart';
-import 'package:ulomobile_project/widgets/custom_alert_dialog.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/onboarding_list.dart';
 
@@ -78,24 +75,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   height: 16,
                 ),
                 LoginButton(
-                  buttonColor: Colors.yellow,
-                  height: 50,
-                  radius: 50,
-                  width: double.infinity,
-                  child: Text(
-                    'Book Now',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
+                    buttonColor: Colors.yellow,
+                    height: 50,
+                    radius: 50,
+                    width: double.infinity,
+                    child: Text(
+                      'Get Started',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  onPressed: () =>
-                      NetworkConnectivityChecker.checkConnection(context, () {
-                    showBarModalBottomSheet(
-                        builder: (context) => PickLocationScreen(),
-                        context: context);
-                  }),
-                ),
+                    onPressed: () =>
+                        //Navigator.of(context)
+                        //   .push(MaterialPageRoute(builder: (ctx) => HomeScreen()))
+                        NetworkConnectivityChecker.checkConnection(context, () {
+                          showBarModalBottomSheet(
+                              builder: (context) => PickLocationScreen(),
+                              context: context);
+                        }))
               ],
             ),
           )
