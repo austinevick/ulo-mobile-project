@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 
 class NetWorkRequest {
   // Get list of treatments
-  static Future<List<Treatments>> fetchTreatmentList(int id) async {
-    final treatmentUrl = 'https://api.ulomobilespa.com/cities/$id/treatments';
+  static Future<List<Treatments>> fetchTreatmentList() async {
+    final treatmentUrl = 'https://api.ulomobilespa.com/treatments';
     List<Treatments> treatments = [];
     final response = await http.get(treatmentUrl);
     try {
@@ -48,11 +48,10 @@ class NetWorkRequest {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Get list of therapist
-  static Future<List<Therapists>> getTherapists(int id) async {
+  static Future<List<Therapists>> getTherapists() async {
     List<Therapists> therapists = [];
 
-    final String therapistUrl =
-        'https://api.ulomobilespa.com/treatments/$id/therapists?name=sheyi&password=123456';
+    final String therapistUrl = 'https://api.ulomobilespa.com/therapists';
 
     //send the request to the server and get the response
     final response = await http.get(therapistUrl);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/screens/booking_screen.dart';
 import 'package:ulomobile_project/screens/treatment_screen.dart';
 import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
@@ -85,7 +86,7 @@ class PickLocationScreen extends StatelessWidget {
                         NetworkConnectivityChecker.checkConnection(context, () {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => TreatmentScreen(
+                          builder: (ctx) => BookingScreen1(
                                 cities: cities.selectedCity,
                               )));
                     }),

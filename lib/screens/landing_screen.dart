@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:ulomobile_project/screens/booking_screen.dart';
+import 'package:ulomobile_project/screens/pick_location.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
+import '../internet_connectivity.dart';
 import 'therapist_registration_screen.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -44,7 +48,11 @@ class LandingScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: LoginButton(
-            onPressed: () => null,
+            onPressed: () =>
+                NetworkConnectivityChecker.checkConnection(context, () {
+              showBarModalBottomSheet(
+                  builder: (context) => PickLocationScreen(), context: context);
+            }),
             radius: 50,
             width: double.infinity,
             buttonColor: Color(0xfff6be00),

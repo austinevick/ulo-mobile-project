@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/therapists.dart';
-
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
-
 import '../internet_connectivity.dart';
 import 'therapist_availability_screen.dart';
 import 'therapist_detail_screen.dart';

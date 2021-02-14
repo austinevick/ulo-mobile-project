@@ -1,13 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
-import 'package:ulomobile_project/screens/client_information_screen.dart';
-import 'package:ulomobile_project/widgets/custom_check_box.dart';
+import 'package:ulomobile_project/widgets/availability_widget.dart';
+import 'package:ulomobile_project/widgets/date_textfield.dart';
+
+import 'client_information_screen.dart';
 
 class AvailabilityScreen extends StatefulWidget {
   final Therapists therapists;
@@ -21,6 +22,11 @@ class AvailabilityScreen extends StatefulWidget {
 class _AvailabilityScreenState extends State<AvailabilityScreen> {
   final controller = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+    controller.text = DateFormat.yMMMd().format(selectedDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +40,10 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           actions: [
             provider.availability == null
                 ? SizedBox.shrink()
-                : FlatButton(
-                    child: Text(
-                      'Next',
-                      style: TextStyle(color: Colors.white),
+                : IconButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 32,
                     ),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
@@ -49,90 +55,36 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                 curve: Interval(0, 0.5), parent: animation);
                             return FadeTransition(
                               opacity: curvedAnimation,
-                              child: ClientInformationScreen(),
+                              child: ClientInformationScreen(
+                                date: controller.text,
+                              ),
                             );
                           }));
                     },
                   )
           ],
         ),
-        body: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 60,
-                padding: EdgeInsets.only(left: 8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black)),
-                child: TextField(
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                  controller: controller,
-                  readOnly: true,
-                  onTap: () {
-                    pickDate();
-                  },
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
+        body: provider.selectedtherapist.defaultAvailability.isEmpty
+            ? Center(
+                child: Text('No selected time for the selected therapist'),
+              )
+            : ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  DateTextFieldWidget(
+                      controller: controller, onTap: () => pickDate()),
+                  Column(
+                    children: List.generate(
+                        widget.therapists.defaultAvailability.length, (index) {
+                      final availability =
+                          widget.therapists.defaultAvailability[index];
+                      return TherapistAvailabilityWidget(
+                        availability: availability,
+                      );
+                    }),
                   ),
-                ),
+                ],
               ),
-            ),
-            Column(
-              children: List.generate(
-                  widget.therapists.defaultAvailability.length, (index) {
-                final availability =
-                    widget.therapists.defaultAvailability[index];
-                return GestureDetector(
-                  onTap: () {
-                    print(availability);
-                    provider.setAvailability(availability);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 2,
-                      child: Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  availability.displayValue,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              AnimatedSwitcher(
-                                  duration: Duration(milliseconds: 300),
-                                  child: provider.availability == availability
-                                      ? CustomCheckBox(
-                                          color: Colors.green,
-                                        )
-                                      : CustomCheckBox())
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -143,6 +95,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
         onDateTimeChanged: (DateTime date) {
           if (date != null) {
             selectedDate = date;
+            controller.text = DateFormat.yMMMd().format(selectedDate);
           }
         },
         initialDateTime: selectedDate,
@@ -169,7 +122,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
 
       if (date != null) {
         selectedDate = date;
-        controller..text = DateFormat.yMMMd().format(selectedDate);
+        controller.text = DateFormat.yMMMd().format(selectedDate);
       }
     }
   }

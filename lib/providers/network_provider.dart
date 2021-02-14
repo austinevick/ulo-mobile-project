@@ -8,6 +8,8 @@ import 'package:ulomobile_project/network_request/get_request.dart';
 class NetworkProvider extends ChangeNotifier {
   NetworkProvider() {
     getCities();
+    getTreatments();
+    getTherapists();
   }
 
   List<Treatments> treatments = [];
@@ -15,9 +17,9 @@ class NetworkProvider extends ChangeNotifier {
   List<Therapists> therapists = [];
 
 //treatment
-  getTreatments(int id) {
+  getTreatments() {
     Future<List<Treatments>> treatmentList =
-        NetWorkRequest.fetchTreatmentList(id);
+        NetWorkRequest.fetchTreatmentList();
     treatmentList.then((value) {
       treatments = value;
       notifyListeners();
@@ -55,8 +57,8 @@ class NetworkProvider extends ChangeNotifier {
   }
 
 //Therapists
-  getTherapists(int id) {
-    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists(id);
+  getTherapists() {
+    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists();
     therapists.then((therapist) {
       this.therapists = therapist;
       notifyListeners();

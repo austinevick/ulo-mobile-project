@@ -19,14 +19,6 @@ class TreatmentScreen extends StatefulWidget {
 
 class _TreatmentScreenState extends State<TreatmentScreen> {
   @override
-  void initState() {
-    Provider.of<NetworkProvider>(context, listen: false).getTreatments(
-      widget.cities.id,
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var city = widget.cities.id == 2 || widget.cities.id == 3;
 
