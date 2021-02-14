@@ -96,6 +96,7 @@ class Therapists {
     this.emailAddress,
     this.phone,
     this.credentials,
+    this.isSelected = false,
     this.description,
     this.membershipId,
   });
@@ -109,6 +110,7 @@ class Therapists {
   //Map<String, List<Availability>> dailyAvailability;
   String emailAddress;
   String phone;
+  bool isSelected;
   String credentials;
   List<String> description;
   String membershipId;

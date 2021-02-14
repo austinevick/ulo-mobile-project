@@ -52,7 +52,9 @@ class NetWorkRequest {
     List<Therapists> therapists = [];
 
     final String therapistUrl =
-        'https://api.ulomobilespa.com/treatments/$id/therapists';
+        'https://api.ulomobilespa.com/treatments/$id/therapists?name=sheyi&password=123456';
+
+    //send the request to the server and get the response
     final response = await http.get(therapistUrl);
 
     if (response.statusCode == 200) {
@@ -65,5 +67,23 @@ class NetWorkRequest {
       // return data.map((map) => Therapists.fromMap(map)).toList();
     }
     throw Exception('Unable to fetch data');
+  }
+
+  void bookTherapists(name, address, postalCode, cityID, treatmentID) async {
+    final String url =
+        'https://api.ulomobilespa.com/treatments/therapists?name=sheyi&password=123456';
+
+    var params = Map();
+
+    params['token'] = "1234567890";
+    params['paymentData']['cityID'] = cityID;
+    params['paymentData']['treatmentId'] = treatmentID;
+    params['name'] = name;
+    params['address'] = address;
+    params['postal-code'] = postalCode;
+    var mapData = json.encode(params);
+
+    //send the request to the server and get the response
+    var response = await http.post(url, body: mapData);
   }
 }

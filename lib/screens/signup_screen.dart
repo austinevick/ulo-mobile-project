@@ -35,28 +35,6 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(
                 height: 40,
               ),
-              TextFieldWidget(
-                hintText: 'First Name',
-              ),
-              TextFieldWidget(
-                hintText: 'Last Name',
-              ),
-              TextFieldWidget(
-                hintText: 'Email Address',
-              ),
-              TextFieldWidget(
-                hintText: 'Password',
-                icon: IconButton(
-                  icon: Icon(Icons.visibility),
-                  onPressed: () {},
-                ),
-              ),
-              TextFieldWidget(
-                hintText: 'Confirm Password',
-              ),
-              SizedBox(
-                height: 8,
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: LoginButton(

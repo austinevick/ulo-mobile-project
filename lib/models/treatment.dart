@@ -5,10 +5,12 @@ class Treatments {
   final String image;
   final int cityId;
   final List<Durations> duration;
+  bool isSelected;
   Treatments({
     this.id,
     this.name,
     this.desc,
+    this.isSelected = false,
     this.image,
     this.cityId,
     this.duration,

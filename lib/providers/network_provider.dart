@@ -24,6 +24,13 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
+  Treatments treatment;
+  setSelectedTreatment(Treatments treatments) {
+    treatment = treatments;
+    treatment.isSelected = !treatment.isSelected;
+    notifyListeners();
+  }
+
 // set selected duration
   Durations selectedDuration;
   setSelectedDuration(Durations duration) {
@@ -54,6 +61,13 @@ class NetworkProvider extends ChangeNotifier {
       this.therapists = therapist;
       notifyListeners();
     });
+  }
+
+  Therapists selectedtherapist;
+  setselectedtherapist(Therapists therapists) {
+    selectedtherapist = therapists;
+    therapists.isSelected = !therapists.isSelected;
+    notifyListeners();
   }
 
   //Set selected availability

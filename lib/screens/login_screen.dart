@@ -30,19 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 40,
               ),
-              TextFieldWidget(
-                hintText: 'Email Address',
-              ),
-              TextFieldWidget(
-                hintText: 'Password',
-                icon: IconButton(
-                  icon: Icon(Icons.visibility),
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
               Align(
                 alignment: Alignment.centerRight,
                 child: FlatButton(
@@ -109,43 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  /* Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: LoginButton(
-                        onPressed: () {},
-                        buttonColor: Color(0xff1a7cdd),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                width: 20,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                          'images/facebook.png',
-                                        ))),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Text(
-                                  'Facebook',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ],
-                        ),
-                        height: 50,
-                        width: double.infinity,
-                      ),
-                    ),
-                  ),*/
                 ],
               )
             ],

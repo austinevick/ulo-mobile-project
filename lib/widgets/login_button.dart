@@ -13,10 +13,10 @@ class LoginButton extends StatelessWidget {
       {Key key,
       this.radius,
       this.child,
-      @required this.height,
-      @required this.onPressed,
-      @required this.width,
-      @required this.buttonColor})
+      this.height,
+      this.onPressed,
+      this.width,
+      this.buttonColor})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
