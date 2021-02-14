@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ulomobile_project/models/cities.dart';
+import 'package:ulomobile_project/models/gifts.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/widgets/url.dart';
@@ -46,6 +47,25 @@ class NetWorkRequest {
     return cities;
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////
+// Get list of Gift Types
+  static Future<List<Gifts>> getGiftTypes() async {
+    List<Gifts> giftTypes = [];
+
+    final String giftTypeUrl = 'https://api.ulomobilespa.com/giftTypes';
+    final response = await http.get(giftTypeUrl);
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      final data = result;
+      //  print(data);
+
+      data.forEach((map) => giftTypes.add(Gifts.fromMap(map)));
+      return giftTypes;
+    }
+    throw Exception('Unable to fetch data');
+  }
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Get list of therapist
   static Future<List<Therapists>> getTherapists() async {
@@ -66,23 +86,5 @@ class NetWorkRequest {
       // return data.map((map) => Therapists.fromMap(map)).toList();
     }
     throw Exception('Unable to fetch data');
-  }
-
-  void bookTherapists(name, address, postalCode, cityID, treatmentID) async {
-    final String url =
-        'https://api.ulomobilespa.com/treatments/therapists?name=sheyi&password=123456';
-
-    var params = Map();
-
-    params['token'] = "1234567890";
-    params['paymentData']['cityID'] = cityID;
-    params['paymentData']['treatmentId'] = treatmentID;
-    params['name'] = name;
-    params['address'] = address;
-    params['postal-code'] = postalCode;
-    var mapData = json.encode(params);
-
-    //send the request to the server and get the response
-    var response = await http.post(url, body: mapData);
   }
 }

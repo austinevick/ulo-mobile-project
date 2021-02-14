@@ -41,6 +41,7 @@ dependencies:
   connectivity: ^2.0.2
   system_settings: ^1.0.1
   intl: ^0.16.1
+  stripe_payment: ^1.0.10
 
 
 dev_dependencies:

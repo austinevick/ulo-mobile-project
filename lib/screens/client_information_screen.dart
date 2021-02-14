@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/screens/payment_screen.dart';
 import 'package:ulomobile_project/widgets/inputfield_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
@@ -191,6 +192,8 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                   radius: 0,
                   buttonColor: Color(0xfffdd13f),
                   onPressed: () async {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => PaymentScreen()));
                     print(
                         '${booking.selectedCity}, ${booking.selectedDuration}, ${widget.date}');
                   },

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
@@ -28,12 +31,22 @@ class TestingPage extends StatefulWidget {
 }
 
 class _TestingPageState extends State<TestingPage> {
-  List<User> users = [
-    User(fname: 'John', lname: 'Petr', id: 1),
-    User(fname: 'John', lname: 'Petr', id: 2),
-    User(fname: 'John', lname: 'Petr', id: 3),
-  ];
-  bool isSelected = false;
+  void bookTherapists(name, address, postalCode, cityID, treatmentID) async {
+    final String url = 'https://api.ulomobilespa.com/';
+
+    var params = Map();
+
+    params['token'] = "1234567890";
+    params['paymentData']['cityID'] = cityID;
+    params['paymentData']['treatmentId'] = treatmentID;
+    params['name'] = name;
+    params['address'] = address;
+    params['postal-code'] = postalCode;
+    var mapData = json.encode(params);
+
+    //send the request to the server and get the response
+    var response = await http.post(url, body: mapData);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +55,7 @@ class _TestingPageState extends State<TestingPage> {
           title: Text('Testing'),
         ),
         body: Container(
-          child: ListView(
-            children: List.generate(
-                users.length,
-                (i) => CheckboxListTile(
-                      title: Text(users[i].fname),
-                      subtitle: Text(users[i].lname),
-                      onChanged: (v) {},
-                      value: users[i].id != null ? true : false,
-                    )),
-          ),
+          child: ListView(),
         ));
   }
-}
-
-class User {
-  int id;
-  final String fname;
-  final String lname;
-
-  User({this.fname, this.id, this.lname});
 }

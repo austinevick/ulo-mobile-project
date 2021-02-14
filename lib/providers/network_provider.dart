@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ulomobile_project/models/cities.dart';
+import 'package:ulomobile_project/models/gifts.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/network_request/network_request.dart';
@@ -10,11 +11,27 @@ class NetworkProvider extends ChangeNotifier {
     getCities();
     getTreatments();
     getTherapists();
+    getGiftTypes();
   }
+  List<Gifts> giftTypes = [];
 
   List<Treatments> treatments = [];
   List<Cities> cities = [];
   List<Therapists> therapists = [];
+
+  Gifts selectedGift;
+  setselectedGift(Gifts gifts) {
+    selectedGift = gifts;
+    notifyListeners();
+  }
+
+  getGiftTypes() {
+    Future<List<Gifts>> giftTypes = NetWorkRequest.getGiftTypes();
+    giftTypes.then((giftType) {
+      this.giftTypes = giftType;
+      notifyListeners();
+    });
+  }
 
 //treatment
   getTreatments() {
