@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ulomobile_project/models/cities.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
-import 'package:ulomobile_project/network_request/get_request.dart';
+import 'package:ulomobile_project/network_request/network_request.dart';
 
 class NetworkProvider extends ChangeNotifier {
   NetworkProvider() {

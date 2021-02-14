@@ -29,7 +29,10 @@ class TreatmentList extends StatelessWidget {
                               const EdgeInsets.only(left: 4, bottom: 4, top: 4),
                           child: Material(
                             elevation: 8,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                            ),
                             child: Container(
                               alignment: Alignment.center,
                               height: 60,
@@ -52,8 +55,6 @@ class TreatmentList extends StatelessWidget {
                                   Spacer()
                                 ],
                               ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8)),
                             ),
                           ),
                         ),
@@ -64,11 +65,12 @@ class TreatmentList extends StatelessWidget {
                           padding: const EdgeInsets.all(4),
                           child: Material(
                               elevation: 8,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                              ),
                               child: Container(
                                   width: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
                                   height: 60,
                                   child: AnimatedSwitcher(
                                       switchInCurve: Curves.easeIn,
