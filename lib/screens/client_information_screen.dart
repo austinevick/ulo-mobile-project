@@ -190,7 +190,10 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                 LoginButton(
                   radius: 0,
                   buttonColor: Color(0xfffdd13f),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    print(
+                        '${booking.selectedCity}, ${booking.selectedDuration}, ${widget.date}');
+                  },
                   height: 65,
                   child: Text(
                     'Continue',
