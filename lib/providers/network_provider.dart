@@ -9,7 +9,6 @@ import 'package:ulomobile_project/network_request/network_request.dart';
 class NetworkProvider extends ChangeNotifier {
   NetworkProvider() {
     getCities();
-    getTreatments();
     getTherapists();
     getGiftTypes();
   }
@@ -34,9 +33,9 @@ class NetworkProvider extends ChangeNotifier {
   }
 
 //treatment
-  getTreatments() {
+  getTreatments(int id) {
     Future<List<Treatments>> treatmentList =
-        NetWorkRequest.fetchTreatmentList();
+        NetWorkRequest.fetchTreatmentList(id);
     treatmentList.then((value) {
       treatments = value;
       notifyListeners();
@@ -54,6 +53,7 @@ class NetworkProvider extends ChangeNotifier {
   Durations selectedDuration;
   setSelectedDuration(Durations duration) {
     selectedDuration = duration;
+    selectedDuration.isSelected = !selectedDuration.isSelected;
     notifyListeners();
   }
 

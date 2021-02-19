@@ -58,153 +58,140 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
               controller: controller,
               title: Text('Personal Information'),
             ),
-            body: ListView(
-              controller: controller,
-              children: [
-                Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextInputField(
-                          autofillHints: [AutofillHints.name],
-                          controller: nameController,
-                          hintText: 'full Name',
-                        ),
-                        TextInputField(
-                            controller: homeAdressController,
-                            onTap: () async {
-                              Map result = await Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (ctx) {}
-                                      // GetUserLocationScreen()
-                                      ));
-                              if (result != null &&
-                                  result.containsKey('item')) {
-                                setState(() =>
-                                    homeAdressController.text = result['item']);
-                                print(homeAdressController.text);
-                              }
-                            },
+            body: Scrollbar(
+              child: ListView(
+                controller: controller,
+                children: [
+                  Form(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextInputField(
+                            autofillHints: [AutofillHints.name],
+                            controller: nameController,
+                            hintText: 'first Name',
+                          ),
+                          TextInputField(
+                            autofillHints: [AutofillHints.name],
+                            controller: nameController,
+                            hintText: 'Last Name',
+                          ),
+                          TextInputField(
+                              controller: homeAdressController,
+                              hintText: 'Street'),
+                          TextInputField(
+                            hintText: 'Email Address',
                             readOnly: true,
-                            hintText: 'Home Address'),
-                        TextInputField(
-                          readOnly: true,
-                          textInputType: TextInputType.emailAddress,
-                          controller: emailController,
-                        ),
-                        TextInputField(
-                          autofillHints: [AutofillHints.postalCode],
-                          controller: postalCodeController,
-                          hintText: 'Postal Code ',
-                        ),
-                        TextInputField(
+                            textInputType: TextInputType.emailAddress,
+                            controller: emailController,
+                          ),
+                          TextInputField(
+                            autofillHints: [AutofillHints.postalCode],
+                            controller: postalCodeController,
+                            hintText: 'Postal Code ',
+                          ),
+                          TextInputField(
                             autofillHints: [AutofillHints.telephoneNumber],
                             controller: phoneNumberController,
                             hintText: 'Phone Number ',
                             textInputType: TextInputType.phone,
-                            validator: (value) {
-                              Pattern pattern =
-                                  r'^(?:\+?1[-.●]?)?\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$';
-                              RegExp regex = new RegExp(pattern);
-                              if (!regex.hasMatch(value))
-                                return 'Enter a valid phone number';
-                              else
-                                return null;
-                            }),
-                        TextInputField(
-                          controller: instructionController,
-                          obscureText: false,
-                          maxLines: null,
-                          hintText:
-                              'Special Instructions (buzzer, allergies, parking)',
-                        ),
-                        SizedBox(height: 15),
-                        headerText(
-                          'Pets',
-                        ),
-                        DropdownButtonFormField(
-                          value: currentPet,
-                          items: pets
-                              .map((item) => DropdownMenuItem(
-                                    value: item,
-                                    child: Text('$item'),
-                                  ))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() => currentPet = value);
-                          },
-                        ),
-                        SizedBox(height: 15),
-                        headerText(
-                          'Stairs',
-                        ),
-                        DropdownButtonFormField(
-                          items: stairs
-                              .map((items) => DropdownMenuItem(
-                                    child: Text(items),
-                                    value: items,
-                                  ))
-                              .toList(),
-                          value: currentStairs,
-                          onChanged: (value) =>
-                              setState(() => currentStairs = value),
-                        ),
-                        SizedBox(height: 15),
-                        headerText(
-                          'Location',
-                        ),
-                        DropdownButtonFormField(
-                          items: locations
-                              .map((items) => DropdownMenuItem(
-                                    child: Text(items),
-                                    value: items,
-                                  ))
-                              .toList(),
-                          value: currentLocation,
-                          onChanged: (value) =>
-                              setState(() => currentLocation = value),
-                        ),
-                        TextInputField(
-                          controller: otherController,
-                          hintText: 'Other',
-                        ),
-                        SizedBox(height: 15),
-                        headerText(
-                          'Where did you hear about us?',
-                        ),
-                        DropdownButtonFormField(
-                          items: socialChoice
-                              .map((items) => DropdownMenuItem(
-                                    child: Text(items),
-                                    value: items,
-                                  ))
-                              .toList(),
-                          value: currentsocialChoice,
-                          onChanged: (value) =>
-                              setState(() => currentsocialChoice = value),
-                        ),
-                      ],
+                          ),
+                          TextInputField(
+                            controller: instructionController,
+                            obscureText: false,
+                            maxLines: null,
+                            hintText:
+                                'Special Instructions (buzzer, allergies, parking)',
+                          ),
+                          SizedBox(height: 15),
+                          headerText(
+                            'Pets',
+                          ),
+                          DropdownButtonFormField(
+                            value: currentPet,
+                            items: pets
+                                .map((item) => DropdownMenuItem(
+                                      value: item,
+                                      child: Text('$item'),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() => currentPet = value);
+                            },
+                          ),
+                          SizedBox(height: 15),
+                          headerText(
+                            'Stairs',
+                          ),
+                          DropdownButtonFormField(
+                            items: stairs
+                                .map((items) => DropdownMenuItem(
+                                      child: Text(items),
+                                      value: items,
+                                    ))
+                                .toList(),
+                            value: currentStairs,
+                            onChanged: (value) =>
+                                setState(() => currentStairs = value),
+                          ),
+                          SizedBox(height: 15),
+                          headerText(
+                            'Location',
+                          ),
+                          DropdownButtonFormField(
+                            items: locations
+                                .map((items) => DropdownMenuItem(
+                                      child: Text(items),
+                                      value: items,
+                                    ))
+                                .toList(),
+                            value: currentLocation,
+                            onChanged: (value) =>
+                                setState(() => currentLocation = value),
+                          ),
+                          TextInputField(
+                            controller: otherController,
+                            hintText: 'Other',
+                          ),
+                          SizedBox(height: 15),
+                          headerText(
+                            'Where did you hear about us?',
+                          ),
+                          DropdownButtonFormField(
+                            items: socialChoice
+                                .map((items) => DropdownMenuItem(
+                                      child: Text(items),
+                                      value: items,
+                                    ))
+                                .toList(),
+                            value: currentsocialChoice,
+                            onChanged: (value) =>
+                                setState(() => currentsocialChoice = value),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                LoginButton(
-                  radius: 0,
-                  buttonColor: Color(0xfffdd13f),
-                  onPressed: () async {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => PaymentScreen()));
-                    print(
-                        '${booking.selectedCity}, ${booking.selectedDuration}, ${widget.date}');
-                  },
-                  height: 65,
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(fontSize: 20),
+                  LoginButton(
+                    radius: 0,
+                    buttonColor: Color(0xfffdd13f),
+                    onPressed: () async {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (ctx) => PaymentScreen()));
+                      print(
+                          '${booking.selectedCity}, ${booking.selectedDuration}, ${widget.date}');
+                    },
+                    height: 65,
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    width: double.infinity,
                   ),
-                  width: double.infinity,
-                ),
-              ],
+                ],
+              ),
             )));
   }
 }

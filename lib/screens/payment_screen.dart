@@ -27,9 +27,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               body: ListView(
                 children: [
                   TextInputField(
-                    hintText: 'card',
-                  ),
-                  TextInputField(
                     hintText: 'Discount code',
                   ),
                   Padding(
@@ -71,7 +68,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       height: 50,
                       width: double.infinity,
                       child: Text(
-                        'Confirm Booking',
+                        'Make Payment',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

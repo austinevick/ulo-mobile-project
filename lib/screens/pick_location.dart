@@ -48,29 +48,32 @@ class PickLocationScreen extends StatelessWidget {
                                 height: 60,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Spacer(),
-                                    Center(
-                                      child: Text(
-                                        city.name,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Spacer(),
+                                      Center(
+                                        child: Text(
+                                          city.name,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    AnimatedSwitcher(
-                                        duration: Duration(milliseconds: 300),
-                                        child: cities.selectedCity ==
-                                                cities.cities[index]
-                                            ? CustomCheckBox(
-                                                color: Colors.green,
-                                              )
-                                            : CustomCheckBox(
-                                                color: Colors.white,
-                                              )),
-                                  ],
+                                      Spacer(),
+                                      AnimatedSwitcher(
+                                          duration: Duration(milliseconds: 300),
+                                          child: cities.selectedCity ==
+                                                  cities.cities[index]
+                                              ? CustomCheckBox(
+                                                  color: Colors.green,
+                                                )
+                                              : CustomCheckBox(
+                                                  color: Colors.white,
+                                                )),
+                                    ],
+                                  ),
                                 ),
                               )),
                         ),
