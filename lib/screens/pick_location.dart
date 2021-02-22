@@ -82,23 +82,27 @@ class PickLocationScreen extends StatelessWidget {
             ),
             cities.selectedCity == null
                 ? SizedBox.shrink()
-                : LoginButton(
-                    radius: 0,
-                    buttonColor: Colors.yellow,
-                    onPressed: () =>
-                        NetworkConnectivityChecker.checkConnection(context, () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => BookingScreen1(
-                                cities: cities.selectedCity,
-                              )));
-                    }),
-                    height: 65,
-                    child: Text(
-                      'Continue',
-                      style: TextStyle(fontSize: 20),
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LoginButton(
+                      radius: 50,
+                      buttonColor: Colors.yellow,
+                      onPressed: () =>
+                          NetworkConnectivityChecker.checkConnection(context,
+                              () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => BookingScreen1(
+                                  cities: cities.selectedCity,
+                                )));
+                      }),
+                      height: 50,
+                      child: Text(
+                        'Continue',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      width: double.infinity,
                     ),
-                    width: double.infinity,
                   )
           ],
         ),

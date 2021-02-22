@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ulomobile_project/models/booking.dart';
 import 'package:ulomobile_project/models/cities.dart';
 import 'package:ulomobile_project/models/gifts.dart';
 import 'package:ulomobile_project/models/therapists.dart';
@@ -8,59 +9,25 @@ import 'package:ulomobile_project/widgets/url.dart';
 import 'package:http/http.dart' as http;
 
 class NetWorkRequest {
-  static bookAppointment(
-      {token,
-      cityId,
-      treatmentId,
-      therapistIds,
-      Durations duration,
-      date,
-      DefaultAvailability time,
-      fname,
-      lname,
-      postalCode,
-      street,
-      emailAddress,
-      phoneNumber,
-      specialInstructions,
-      buildingType,
-      source,
-      city,
-      province,
-      discountCode}) async {
+  static Future bookAppointment(Booking booking) async {
     final String url = 'https://api.ulomobilespa.com/stripePayment';
-    var params = Map();
+    try {
+      var response = await http.post((url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(booking.toMap()));
+      print(response.body);
+      if (response.statusCode == 201) {
+        final result = jsonDecode(response.body);
+        print(result);
+      } else {
+        print(response.statusCode);
 
-    params['token'] = "1234567890";
-    params['paymentData']['cityID'] = cityId;
-    params['paymentData']['treatmentId'] = treatmentId;
-    params['paymentData']['therapistIds'] = therapistIds;
-    params['paymentData']['duration']['id'] = duration.id;
-    params['paymentData']['duration']['length'] = duration.length;
-    params['paymentData']['duration']['price'] = duration.price;
-    params['paymentData'] = date;
-    params['paymentData']['key'] = time.key;
-    params['paymentData']['displayValue'] = time.displayValue;
-    params['client']['firstName'] = fname;
-    params['client']['lastName'] = lname;
-    params['client']['street'] = street;
-    params['client']['postalCode'] = postalCode;
-    params['client']['emailAddress'] = emailAddress;
-    params['client']['phoneNumber'] = phoneNumber;
-    params['client']['specialInstructions'] = specialInstructions;
-    params['client']['buildingType'] = buildingType;
-    params['client']['source'] = source;
-    params['client']['city'] = city;
-    params['client']['province'] = province;
-
-    var mapData = json.encode(params);
-
-    //send the request to the server and get the response
-    var response = await http.post(url, body: mapData);
-    if (response.statusCode == 201) {
-      print(response);
-    } else {
-      throw Exception('Failed to load data');
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

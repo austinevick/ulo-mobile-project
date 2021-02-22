@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
+import 'package:ulomobile_project/models/booking.dart';
+import 'package:ulomobile_project/network_request/network_request.dart';
 
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/payment_screen.dart';
@@ -21,7 +23,9 @@ class ClientInformationScreen extends StatefulWidget {
 }
 
 class _ClientInformationScreenState extends State<ClientInformationScreen> {
-  final nameController = new TextEditingController();
+  final fnameController = new TextEditingController();
+  final lnameController = new TextEditingController();
+
   final homeAdressController = new TextEditingController();
   final emailController = new TextEditingController();
   final postalCodeController = new TextEditingController();
@@ -70,12 +74,12 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                         children: [
                           TextInputField(
                             autofillHints: [AutofillHints.name],
-                            controller: nameController,
+                            controller: fnameController,
                             hintText: 'first Name',
                           ),
                           TextInputField(
                             autofillHints: [AutofillHints.name],
-                            controller: nameController,
+                            controller: lnameController,
                             hintText: 'Last Name',
                           ),
                           TextInputField(
@@ -83,7 +87,6 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                               hintText: 'Street'),
                           TextInputField(
                             hintText: 'Email Address',
-                            readOnly: true,
                             textInputType: TextInputType.emailAddress,
                             controller: emailController,
                           ),
@@ -178,10 +181,26 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                     radius: 0,
                     buttonColor: Color(0xfffdd13f),
                     onPressed: () async {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (ctx) => PaymentScreen()));
-                      print(
-                          '${booking.selectedCity}, ${booking.selectedDuration}, ${widget.date}');
+                      final bookings = new Booking(
+                          firstName: 'John',
+                          durationId: 1,
+                          durationLength: '20 minute',
+                          durationPrice: '109',
+                          cityId: 1,
+                          lastName: 'Simon',
+                          source: 'Twitter',
+                          therapistIds: [1, 2],
+                          treatmentId: 1,
+                          timeDisplayValue: '11:00PM',
+                          date: '22/08/2020',
+                          email: 'petersimon@gmail.com');
+                      print(bookings);
+
+                      try {
+                        await NetWorkRequest.bookAppointment(bookings);
+                      } catch (e) {
+                        print(e);
+                      }
                     },
                     height: 65,
                     child: Text(
