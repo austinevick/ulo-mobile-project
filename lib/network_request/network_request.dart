@@ -91,10 +91,11 @@ class NetWorkRequest {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Get list of therapist
-  static Future<List<Therapists>> getTherapists() async {
+  static Future<List<Therapists>> getTherapists(int id) async {
     List<Therapists> therapists = [];
 
-    final String therapistUrl = 'https://api.ulomobilespa.com/therapists';
+    final String therapistUrl =
+        'https://api.ulomobilespa.com/treatments/$id/therapists';
 
     //send the request to the server and get the response
     final response = await http.get(therapistUrl);

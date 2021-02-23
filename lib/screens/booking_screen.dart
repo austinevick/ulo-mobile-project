@@ -60,6 +60,7 @@ class _BookingScreen1State extends State<BookingScreen1> {
                               onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (ctx) => BookingScreen2(
+                                            treatments: treatment.treatment,
                                             showDetailScreen: false,
                                           ))),
                             )

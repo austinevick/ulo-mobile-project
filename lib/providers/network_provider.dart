@@ -9,7 +9,6 @@ import 'package:ulomobile_project/network_request/network_request.dart';
 class NetworkProvider extends ChangeNotifier {
   NetworkProvider() {
     getCities();
-    getTherapists();
     getGiftTypes();
   }
   List<Gifts> giftTypes = [];
@@ -74,8 +73,8 @@ class NetworkProvider extends ChangeNotifier {
   }
 
 //Therapists
-  getTherapists() {
-    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists();
+  getTherapists(int id) {
+    Future<List<Therapists>> therapists = NetWorkRequest.getTherapists(id);
     therapists.then((therapist) {
       this.therapists = therapist;
       notifyListeners();

@@ -2,18 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/therapists.dart';
+import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 import '../internet_connectivity.dart';
 import 'therapist_availability_screen.dart';
 import 'therapist_detail_screen.dart';
 
-class BookingScreen2 extends StatelessWidget {
+class BookingScreen2 extends StatefulWidget {
   final bool showDetailScreen;
+  final Treatments treatments;
+  const BookingScreen2({Key key, this.treatments, this.showDetailScreen})
+      : super(key: key);
 
-  const BookingScreen2({Key key, this.showDetailScreen}) : super(key: key);
+  @override
+  _BookingScreen2State createState() => _BookingScreen2State();
+}
+
+class _BookingScreen2State extends State<BookingScreen2> {
   String appBarTitle() =>
-      showDetailScreen == true ? 'Therapists' : 'Pick a Therapist';
+      widget.showDetailScreen == true ? 'Therapists' : 'Pick a Therapist';
+
+  @override
+  void initState() {
+    Provider.of<NetworkProvider>(context, listen: false)
+        .getTherapists(widget.treatments.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -34,7 +50,7 @@ class BookingScreen2 extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(2),
                       child: GestureDetector(
-                        onTap: showDetailScreen == true
+                        onTap: widget.showDetailScreen == true
                             ? () => navigateToDetailScreen(context, therapists)
                             : () {
                                 therapist.setselectedtherapist(therapists);
