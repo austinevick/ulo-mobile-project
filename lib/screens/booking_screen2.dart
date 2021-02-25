@@ -53,7 +53,8 @@ class _BookingScreen2State extends State<BookingScreen2> {
                         onTap: widget.showDetailScreen == true
                             ? () => navigateToDetailScreen(context, therapists)
                             : () {
-                                therapist.setselectedtherapist(therapists);
+                                therapist.setselectedtherapist(
+                                    therapists ?? [therapists]);
                                 navigateToAvailabilityScreen(
                                     context, therapists);
                               },

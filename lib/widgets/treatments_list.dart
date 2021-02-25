@@ -77,7 +77,8 @@ class TreatmentList extends StatelessWidget {
                                       switchOutCurve: Curves.easeInOut,
                                       duration: Duration(milliseconds: 1000),
                                       child: treatments.isSelected &&
-                                              treatment.treatment == treatments
+                                              treatment.selectedTreatment ==
+                                                  treatments
                                           ? Icon(Icons.keyboard_arrow_down)
                                           : Icon(Icons.keyboard_arrow_right)))),
                         ),
@@ -90,7 +91,7 @@ class TreatmentList extends StatelessWidget {
                     switchOutCurve: Curves.easeInOut,
                     duration: Duration(milliseconds: 500),
                     child: treatments.isSelected &&
-                            treatment.treatment == treatments
+                            treatment.selectedTreatment == treatments
                         ? buildDuration(treatments)
                         : Container())
               ],

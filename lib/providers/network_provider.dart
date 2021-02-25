@@ -41,10 +41,10 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
-  Treatments treatment;
+  Treatments selectedTreatment;
   setSelectedTreatment(Treatments treatments) {
-    treatment = treatments;
-    treatment.isSelected = !treatment.isSelected;
+    selectedTreatment = treatments;
+    selectedTreatment.isSelected = !selectedTreatment.isSelected;
     notifyListeners();
   }
 

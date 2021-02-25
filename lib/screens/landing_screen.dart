@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ulomobile_project/screens/booking_screen.dart';
 import 'package:ulomobile_project/screens/pick_location.dart';
+import 'package:ulomobile_project/widgets/drawer_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
 import '../internet_connectivity.dart';
@@ -13,19 +14,16 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Ulo Mobile Spa',
+          style: GoogleFonts.bungee(fontSize: 18),
+        ),
+      ),
+      drawer: Drawer(child: DrawerWidget()),
       body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 10,
-          ),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Image.asset(
-              'images/ulo_logo.png',
-              width: 130,
-              height: 140,
-            ),
-          ),
+        SizedBox(
+          height: 50,
         ),
         Text(
           'Welcome to Ulo Mobile Spa',

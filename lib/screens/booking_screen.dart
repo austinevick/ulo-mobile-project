@@ -34,67 +34,66 @@ class _BookingScreen1State extends State<BookingScreen1> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-      builder: (context, treatment, child) =>
-          widget.cities.id == 2 || widget.cities.id == 3
-              ? Scaffold(
-                  body: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        'We are coming soon to your location',
-                        style: GoogleFonts.aladin(fontSize: 35),
-                      ),
-                    ),
-                  ),
-                )
-              : Scaffold(
-                  appBar: AppBar(
-                    actions: [
-                      treatment.selectedDuration == null
-                          ? SizedBox.shrink()
-                          : IconButton(
-                              icon: Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 32,
-                              ),
-                              onPressed: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) => BookingScreen2(
-                                            treatments: treatment.treatment,
-                                            showDetailScreen: false,
-                                          ))),
-                            )
-                    ],
-                    title: Text('Pick a treatment'),
-                  ),
-                  body: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      treatment.treatments.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: treatment.treatments.length,
-                                itemBuilder: (ctx, index) {
-                                  final MaterialColor color =
-                                      _colors[index % _colors.length];
-                                  final treatments =
-                                      treatment.treatments[index];
-                                  return TreatmentList(
-                                    treatments: treatments,
-                                    color: color,
-                                  );
-                                },
-                              ),
-                            ),
-                    ],
+      builder: (context, treatment, child) => widget.cities.id == 2 ||
+              widget.cities.id == 3
+          ? Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'We are coming soon to your location',
+                    style: GoogleFonts.aladin(fontSize: 35),
                   ),
                 ),
+              ),
+            )
+          : Scaffold(
+              appBar: AppBar(
+                actions: [
+                  treatment.selectedDuration == null
+                      ? SizedBox.shrink()
+                      : IconButton(
+                          icon: Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 32,
+                          ),
+                          onPressed: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => BookingScreen2(
+                                        treatments: treatment.selectedTreatment,
+                                        showDetailScreen: false,
+                                      ))),
+                        )
+                ],
+                title: Text('Pick a treatment'),
+              ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  treatment.treatments.isEmpty
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: treatment.treatments.length,
+                            itemBuilder: (ctx, index) {
+                              final MaterialColor color =
+                                  _colors[index % _colors.length];
+                              final treatments = treatment.treatments[index];
+                              return TreatmentList(
+                                treatments: treatments,
+                                color: color,
+                              );
+                            },
+                          ),
+                        ),
+                ],
+              ),
+            ),
     );
   }
 }
