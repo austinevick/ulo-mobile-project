@@ -7,6 +7,7 @@ import 'package:ulomobile_project/screens/booking_screen.dart';
 import 'package:ulomobile_project/screens/treatment_screen.dart';
 import 'package:ulomobile_project/widgets/custom_check_box.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
+import 'package:ulomobile_project/widgets/reusable_button.dart';
 
 class PickLocationScreen extends StatelessWidget {
   @override
@@ -82,31 +83,35 @@ class PickLocationScreen extends StatelessWidget {
             ),
             cities.selectedCity == null
                 ? SizedBox.shrink()
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LoginButton(
-                      radius: 50,
-                      buttonColor: Colors.yellow,
-                      onPressed: () =>
-                          NetworkConnectivityChecker.checkConnection(context,
-                              () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => BookingScreen1(
-                                  cities: cities.selectedCity,
-                                )));
-                      }),
-                      height: 50,
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      width: double.infinity,
-                    ),
-                  )
+                : buildButton(context, cities)
           ],
         ),
       ),
     );
   }
+
+  buildButton(context, cities) => ReusableButton(
+        child: Row(
+          children: [
+            Spacer(
+              flex: 3,
+            ),
+            Text('Continue'),
+            Spacer(
+              flex: 2,
+            ),
+            Icon(
+              Icons.keyboard_arrow_right,
+            )
+          ],
+        ),
+        onPressed: () =>
+            NetworkConnectivityChecker.checkConnection(context, () {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (ctx) => BookingScreen1(
+                    cities: cities.selectedCity,
+                  )));
+        }),
+      );
 }

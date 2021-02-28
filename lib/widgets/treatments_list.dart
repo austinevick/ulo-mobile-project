@@ -113,7 +113,7 @@ class TreatmentList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Material(
-                elevation: 1,
+                // elevation: 1,
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                   decoration:

@@ -6,8 +6,9 @@ import 'package:ulomobile_project/providers/network_provider.dart';
 
 class ImageWidget extends StatelessWidget {
   final Therapists therapists;
-
-  const ImageWidget({Key key, this.therapists}) : super(key: key);
+  final bool isSelected;
+  const ImageWidget({Key key, this.isSelected, this.therapists})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -21,8 +22,7 @@ class ImageWidget extends StatelessWidget {
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
-                          border: therapists.isSelected &&
-                                  therapist.selectedtherapist == therapists
+                          border: isSelected
                               ? Border.all(color: Colors.yellow, width: 3)
                               : null,
                           borderRadius: BorderRadius.circular(50),

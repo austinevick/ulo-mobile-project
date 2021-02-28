@@ -4,16 +4,20 @@ import 'package:provider/provider.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/widgets/reusable_button.dart';
 import 'package:ulomobile_project/widgets/therapist_image_widget.dart';
 import '../internet_connectivity.dart';
 import 'therapist_availability_screen.dart';
 import 'therapist_detail_screen.dart';
 
 class BookingScreen2 extends StatefulWidget {
-  final bool showDetailScreen;
   final Treatments treatments;
-  const BookingScreen2({Key key, this.treatments, this.showDetailScreen})
-      : super(key: key);
+  final bool isMultiSelection;
+  const BookingScreen2({
+    Key key,
+    this.isMultiSelection,
+    this.treatments,
+  }) : super(key: key);
 
   @override
   _BookingScreen2State createState() => _BookingScreen2State();
@@ -21,7 +25,7 @@ class BookingScreen2 extends StatefulWidget {
 
 class _BookingScreen2State extends State<BookingScreen2> {
   String appBarTitle() =>
-      widget.showDetailScreen == true ? 'Therapists' : 'Pick a Therapist';
+      widget.treatments.id == 1 ? 'Pick two therapist' : 'Pick a Therapist';
 
   @override
   void initState() {
@@ -30,40 +34,60 @@ class _BookingScreen2State extends State<BookingScreen2> {
     super.initState();
   }
 
+  List<Therapists> selectedTherapists = [];
+  selectedTherapist(Therapists therapists) {
+    if (widget.isMultiSelection) {
+      final isSelected = selectedTherapists.contains(therapists);
+      setState(() => isSelected
+          ? selectedTherapists.remove(therapists)
+          : selectedTherapists.add(therapists));
+    } else {
+      navigateToAvailabilityScreen(context, therapists);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
       builder: (context, therapist, child) => Scaffold(
           appBar: AppBar(
-            title: Text(appBarTitle()),
+            title: Text(appBarTitle() + ' ${widget.treatments.id}'),
           ),
           body: therapist.therapists.isEmpty
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemCount: therapist.therapists.length,
-                  itemBuilder: (context, index) {
-                    final therapists = therapist.therapists[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: GestureDetector(
-                        onTap: widget.showDetailScreen == true
-                            ? () => navigateToDetailScreen(context, therapists)
-                            : () {
-                                therapist.setselectedtherapist(
-                                    therapists ?? [therapists]);
-                                navigateToAvailabilityScreen(
-                                    context, therapists);
+              : Column(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: therapist.therapists.length,
+                        itemBuilder: (context, index) {
+                          final therapists = therapist.therapists[index];
+                          final isSelected =
+                              selectedTherapists.contains(therapists);
+                          return Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: GestureDetector(
+                              onTap: () {
+                                selectedTherapist(therapists);
+                                print(therapists.therapistId);
                               },
-                        child: ImageWidget(
-                          therapists: therapists,
-                        ),
+                              child: ImageWidget(
+                                therapists: therapists,
+                                isSelected: isSelected,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    widget.isMultiSelection
+                        ? ReusableButton(child: Text('kkdkd'), onPressed: () {})
+                        : Container()
+                  ],
                 )),
     );
   }

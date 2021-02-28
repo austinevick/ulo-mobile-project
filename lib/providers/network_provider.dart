@@ -81,13 +81,17 @@ class NetworkProvider extends ChangeNotifier {
     });
   }
 
+/*
+  bool isMultiSelected = false;
+
   Therapists selectedtherapist;
   setselectedtherapist(Therapists therapists) {
+   
     selectedtherapist = therapists;
     therapists.isSelected = !therapists.isSelected;
     notifyListeners();
   }
-
+*/
   //Set selected availability
   DefaultAvailability availability;
   setAvailability(DefaultAvailability availability) {

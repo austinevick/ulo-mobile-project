@@ -65,27 +65,23 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                   )
           ],
         ),
-        body: provider.selectedtherapist.defaultAvailability.isEmpty
-            ? Center(
-                child: Text('No selected time for the selected therapist'),
-              )
-            : ListView(
-                physics: BouncingScrollPhysics(),
-                children: [
-                  DateTextFieldWidget(
-                      controller: controller, onTap: () => pickDate()),
-                  Column(
-                    children: List.generate(
-                        widget.therapists.defaultAvailability.length, (index) {
-                      final availability =
-                          widget.therapists.defaultAvailability[index];
-                      return TherapistAvailabilityWidget(
-                        availability: availability,
-                      );
-                    }),
-                  ),
-                ],
-              ),
+        body: ListView(
+          physics: BouncingScrollPhysics(),
+          children: [
+            DateTextFieldWidget(
+                controller: controller, onTap: () => pickDate()),
+            Column(
+              children: List.generate(
+                  widget.therapists.defaultAvailability.length, (index) {
+                final availability =
+                    widget.therapists.defaultAvailability[index];
+                return TherapistAvailabilityWidget(
+                  availability: availability,
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
