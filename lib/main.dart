@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ULO MOBILE SPA',
-        theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.indigo)),
+        theme: ThemeData(
+            accentColor: Colors.indigo,
+            appBarTheme: AppBarTheme(color: Colors.indigo)),
         home: LandingScreen(),
       ),
     );

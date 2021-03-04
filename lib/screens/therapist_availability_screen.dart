@@ -8,6 +8,7 @@ import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/widgets/availability_widget.dart';
 import 'package:ulomobile_project/widgets/date_textfield.dart';
+import 'package:ulomobile_project/widgets/reusable_button.dart';
 
 import 'client_information_screen.dart';
 
@@ -38,48 +39,38 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           title: Text(
             'Pick a date and time',
           ),
-          actions: [
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  DateTextFieldWidget(
+                      controller: controller, onTap: () => pickDate()),
+                  Column(
+                    children: List.generate(
+                        widget.therapists.defaultAvailability.length, (index) {
+                      final availability =
+                          widget.therapists.defaultAvailability[index];
+                      return TherapistAvailabilityWidget(
+                        availability: availability,
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
             provider.availability == null
                 ? SizedBox.shrink()
-                : IconButton(
-                    icon: Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 32,
-                    ),
+                : ReusableButton(
                     onPressed: () {
-                      Navigator.of(context).push(PageRouteBuilder(
-                          transitionDuration: Duration(seconds: 1),
-                          reverseTransitionDuration: Duration(seconds: 1),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            final curvedAnimation = CurvedAnimation(
-                                curve: Interval(0, 0.5), parent: animation);
-                            return FadeTransition(
-                              opacity: curvedAnimation,
-                              child: ClientInformationScreen(
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => ClientInformationScreen(
                                 date: controller.text,
-                              ),
-                            );
-                          }));
+                              )));
                     },
                   )
-          ],
-        ),
-        body: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            DateTextFieldWidget(
-                controller: controller, onTap: () => pickDate()),
-            Column(
-              children: List.generate(
-                  widget.therapists.defaultAvailability.length, (index) {
-                final availability =
-                    widget.therapists.defaultAvailability[index];
-                return TherapistAvailabilityWidget(
-                  availability: availability,
-                );
-              }),
-            ),
           ],
         ),
       ),

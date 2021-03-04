@@ -109,21 +109,6 @@ class _BookingScreen1State extends State<BookingScreen1> {
       );
 
   buildButton(treatment) => ReusableButton(
-        child: Row(
-          //  mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Spacer(
-              flex: 3,
-            ),
-            Text('Continue'),
-            Spacer(
-              flex: 2,
-            ),
-            Icon(
-              Icons.keyboard_arrow_right,
-            )
-          ],
-        ),
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (ctx) => BookingScreen2(
                   isMultiSelection:

@@ -25,7 +25,7 @@ class BookingScreen2 extends StatefulWidget {
 
 class _BookingScreen2State extends State<BookingScreen2> {
   String appBarTitle() =>
-      widget.treatments.id == 1 ? 'Pick two therapist' : 'Pick a Therapist';
+      widget.isMultiSelection ? 'Pick two therapist' : 'Pick a Therapist';
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _BookingScreen2State extends State<BookingScreen2> {
     return Consumer<NetworkProvider>(
       builder: (context, therapist, child) => Scaffold(
           appBar: AppBar(
-            title: Text(appBarTitle() + ' ${widget.treatments.id}'),
+            title: Text(appBarTitle()),
           ),
           body: therapist.therapists.isEmpty
               ? Center(
@@ -68,29 +68,37 @@ class _BookingScreen2State extends State<BookingScreen2> {
                           final therapists = therapist.therapists[index];
                           final isSelected =
                               selectedTherapists.contains(therapists);
-                          return Padding(
-                            padding: const EdgeInsets.all(2),
-                            child: GestureDetector(
-                              onTap: () {
-                                selectedTherapist(therapists);
-                                print(therapists.therapistId);
-                              },
-                              child: ImageWidget(
-                                therapists: therapists,
-                                isSelected: isSelected,
-                              ),
+                          return GestureDetector(
+                            onTap: () {
+                              selectedTherapist(therapists);
+
+                              print('${therapists.name}');
+                            },
+                            child: ImageWidget(
+                              therapists: therapists,
+                              isSelected: isSelected,
                             ),
                           );
                         },
                       ),
                     ),
-                    widget.isMultiSelection
-                        ? ReusableButton(child: Text('kkdkd'), onPressed: () {})
-                        : Container()
+                    selectedTherapists.length == 2 ? buildButton() : Container()
                   ],
                 )),
     );
   }
+
+  buildButton() => ReusableButton(onPressed: () {
+        showBarModalBottomSheet(
+            context: context,
+            bounce: false,
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none),
+            builder: (context) => AvailabilityScreen(
+                  therapists: selectedTherapists.first,
+                ));
+      });
 
   navigateToAvailabilityScreen(BuildContext context, Therapists therapists) {
     NetworkConnectivityChecker.checkConnection(context, () {

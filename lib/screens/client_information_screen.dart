@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:ulomobile_project/models/booking.dart';
-import 'package:ulomobile_project/network_request/network_request.dart';
 
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/payment_screen.dart';
 import 'package:ulomobile_project/widgets/inputfield_widget.dart';
-import 'package:ulomobile_project/widgets/login_button.dart';
+import 'package:ulomobile_project/widgets/reusable_button.dart';
 
 class ClientInformationScreen extends StatefulWidget {
   final String date;
@@ -23,6 +21,7 @@ class ClientInformationScreen extends StatefulWidget {
 }
 
 class _ClientInformationScreenState extends State<ClientInformationScreen> {
+  final formKey = new GlobalKey<FormState>();
   final fnameController = new TextEditingController();
   final lnameController = new TextEditingController();
 
@@ -63,154 +62,167 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
               title: Text('Personal Information'),
             ),
             body: Scrollbar(
-              child: ListView(
-                controller: controller,
+              child: Column(
                 children: [
-                  Form(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextInputField(
-                            autofillHints: [AutofillHints.name],
-                            controller: fnameController,
-                            hintText: 'first Name',
+                  Expanded(
+                    child: ListView(
+                      controller: controller,
+                      children: [
+                        Form(
+                          key: formKey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextInputField(
+                                  validator: (value) => value.isEmpty
+                                      ? 'Field must not be empty'
+                                      : null,
+                                  autofillHints: [AutofillHints.name],
+                                  controller: fnameController,
+                                  hintText: 'first Name*',
+                                ),
+                                TextInputField(
+                                  validator: (value) => value.isEmpty
+                                      ? 'Field must not be empty'
+                                      : null,
+                                  autofillHints: [AutofillHints.name],
+                                  controller: lnameController,
+                                  hintText: 'Last Name*',
+                                ),
+                                TextInputField(
+                                    validator: (value) => value.isEmpty
+                                        ? 'Field must not be empty'
+                                        : null,
+                                    controller: homeAdressController,
+                                    hintText:
+                                        'Street* (Please fill in your correct address)'),
+                                TextInputField(
+                                  validator: (value) => !value.contains('@')
+                                      ? 'Provide a valid email'
+                                      : null,
+                                  hintText: 'Email Address*',
+                                  textInputType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                ),
+                                TextInputField(
+                                  validator: (value) => value.isEmpty
+                                      ? 'Field must not be empty'
+                                      : null,
+                                  autofillHints: [AutofillHints.postalCode],
+                                  controller: postalCodeController,
+                                  hintText: 'Postal Code* ',
+                                ),
+                                TextInputField(
+                                  validator: (value) => validateMobile(value),
+                                  autofillHints: [
+                                    AutofillHints.telephoneNumber
+                                  ],
+                                  controller: phoneNumberController,
+                                  hintText: 'Phone Number* ',
+                                  textInputType: TextInputType.phone,
+                                ),
+                                TextInputField(
+                                  controller: instructionController,
+                                  obscureText: false,
+                                  maxLines: null,
+                                  hintText:
+                                      'Special Instructions (buzzer, allergies, parking)',
+                                ),
+                                SizedBox(height: 15),
+                                headerText(
+                                  'Pets',
+                                ),
+                                DropdownButtonFormField(
+                                  value: currentPet,
+                                  items: pets
+                                      .map((item) => DropdownMenuItem(
+                                            value: item,
+                                            child: Text('$item'),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() => currentPet = value);
+                                  },
+                                ),
+                                SizedBox(height: 15),
+                                headerText(
+                                  'Stairs',
+                                ),
+                                DropdownButtonFormField(
+                                  items: stairs
+                                      .map((items) => DropdownMenuItem(
+                                            child: Text(items),
+                                            value: items,
+                                          ))
+                                      .toList(),
+                                  value: currentStairs,
+                                  onChanged: (value) =>
+                                      setState(() => currentStairs = value),
+                                ),
+                                SizedBox(height: 15),
+                                headerText(
+                                  'Location',
+                                ),
+                                DropdownButtonFormField(
+                                  items: locations
+                                      .map((items) => DropdownMenuItem(
+                                            child: Text(items),
+                                            value: items,
+                                          ))
+                                      .toList(),
+                                  value: currentLocation,
+                                  onChanged: (value) =>
+                                      setState(() => currentLocation = value),
+                                ),
+                                TextInputField(
+                                  controller: otherController,
+                                  hintText: 'Other',
+                                ),
+                                SizedBox(height: 15),
+                                headerText(
+                                  'Where did you hear about us?',
+                                ),
+                                DropdownButtonFormField(
+                                  items: socialChoice
+                                      .map((items) => DropdownMenuItem(
+                                            child: Text(items),
+                                            value: items,
+                                          ))
+                                      .toList(),
+                                  value: currentsocialChoice,
+                                  onChanged: (value) => setState(
+                                      () => currentsocialChoice = value),
+                                ),
+                              ],
+                            ),
                           ),
-                          TextInputField(
-                            autofillHints: [AutofillHints.name],
-                            controller: lnameController,
-                            hintText: 'Last Name',
-                          ),
-                          TextInputField(
-                              controller: homeAdressController,
-                              hintText: 'Street'),
-                          TextInputField(
-                            hintText: 'Email Address',
-                            textInputType: TextInputType.emailAddress,
-                            controller: emailController,
-                          ),
-                          TextInputField(
-                            autofillHints: [AutofillHints.postalCode],
-                            controller: postalCodeController,
-                            hintText: 'Postal Code ',
-                          ),
-                          TextInputField(
-                            autofillHints: [AutofillHints.telephoneNumber],
-                            controller: phoneNumberController,
-                            hintText: 'Phone Number ',
-                            textInputType: TextInputType.phone,
-                          ),
-                          TextInputField(
-                            controller: instructionController,
-                            obscureText: false,
-                            maxLines: null,
-                            hintText:
-                                'Special Instructions (buzzer, allergies, parking)',
-                          ),
-                          SizedBox(height: 15),
-                          headerText(
-                            'Pets',
-                          ),
-                          DropdownButtonFormField(
-                            value: currentPet,
-                            items: pets
-                                .map((item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text('$item'),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() => currentPet = value);
-                            },
-                          ),
-                          SizedBox(height: 15),
-                          headerText(
-                            'Stairs',
-                          ),
-                          DropdownButtonFormField(
-                            items: stairs
-                                .map((items) => DropdownMenuItem(
-                                      child: Text(items),
-                                      value: items,
-                                    ))
-                                .toList(),
-                            value: currentStairs,
-                            onChanged: (value) =>
-                                setState(() => currentStairs = value),
-                          ),
-                          SizedBox(height: 15),
-                          headerText(
-                            'Location',
-                          ),
-                          DropdownButtonFormField(
-                            items: locations
-                                .map((items) => DropdownMenuItem(
-                                      child: Text(items),
-                                      value: items,
-                                    ))
-                                .toList(),
-                            value: currentLocation,
-                            onChanged: (value) =>
-                                setState(() => currentLocation = value),
-                          ),
-                          TextInputField(
-                            controller: otherController,
-                            hintText: 'Other',
-                          ),
-                          SizedBox(height: 15),
-                          headerText(
-                            'Where did you hear about us?',
-                          ),
-                          DropdownButtonFormField(
-                            items: socialChoice
-                                .map((items) => DropdownMenuItem(
-                                      child: Text(items),
-                                      value: items,
-                                    ))
-                                .toList(),
-                            value: currentsocialChoice,
-                            onChanged: (value) =>
-                                setState(() => currentsocialChoice = value),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  LoginButton(
-                    radius: 0,
-                    buttonColor: Color(0xfffdd13f),
-                    onPressed: () async {
-                      final bookings = new Booking(
-                          firstName: 'John',
-                          durationId: 1,
-                          durationLength: '20 minute',
-                          durationPrice: '109',
-                          cityId: 1,
-                          lastName: 'Simon',
-                          source: 'Twitter',
-                          therapistIds: [1, 2],
-                          treatmentId: 1,
-                          timeDisplayValue: '11:00PM',
-                          date: '22/08/2020',
-                          email: 'petersimon@gmail.com');
-                      print(bookings);
-
-                      try {
-                        await NetWorkRequest.bookAppointment(bookings);
-                      } catch (e) {
-                        print(e);
+                  ReusableButton(
+                    onPressed: () {
+                      if (formKey.currentState.validate()) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => PaymentScreen()));
                       }
                     },
-                    height: 65,
-                    child: Text(
-                      'Continue',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    width: double.infinity,
-                  ),
+                  )
                 ],
               ),
             )));
+  }
+
+  String validateMobile(String value) {
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
   }
 }

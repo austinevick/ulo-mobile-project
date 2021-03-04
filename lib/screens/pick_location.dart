@@ -83,35 +83,20 @@ class PickLocationScreen extends StatelessWidget {
             ),
             cities.selectedCity == null
                 ? SizedBox.shrink()
-                : buildButton(context, cities)
+                : ReusableButton(
+                    onPressed: () {
+                      NetworkConnectivityChecker.checkConnection(context, () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => BookingScreen1(
+                                  cities: cities.selectedCity,
+                                )));
+                      });
+                    },
+                  )
           ],
         ),
       ),
     );
   }
-
-  buildButton(context, cities) => ReusableButton(
-        child: Row(
-          children: [
-            Spacer(
-              flex: 3,
-            ),
-            Text('Continue'),
-            Spacer(
-              flex: 2,
-            ),
-            Icon(
-              Icons.keyboard_arrow_right,
-            )
-          ],
-        ),
-        onPressed: () =>
-            NetworkConnectivityChecker.checkConnection(context, () {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) => BookingScreen1(
-                    cities: cities.selectedCity,
-                  )));
-        }),
-      );
 }

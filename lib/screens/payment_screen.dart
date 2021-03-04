@@ -5,6 +5,35 @@ import 'package:ulomobile_project/widgets/inputfield_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
 class PaymentScreen extends StatefulWidget {
+  final String firstName;
+  final String lastName;
+  final String street;
+  final String emailAddress;
+  final String postalCode;
+  final String phoneNumber;
+  final String specialInstruction;
+  final String pet;
+  final String stairs;
+  final String location;
+  final String other;
+  final String source;
+
+  const PaymentScreen(
+      {Key key,
+      this.firstName,
+      this.lastName,
+      this.street,
+      this.emailAddress,
+      this.postalCode,
+      this.phoneNumber,
+      this.specialInstruction,
+      this.pet,
+      this.stairs,
+      this.location,
+      this.other,
+      this.source})
+      : super(key: key);
+
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
@@ -20,7 +49,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-        builder: (context, therapist, child) => Scaffold(
+        builder: (context, provider, child) => Scaffold(
               appBar: AppBar(
                 title: Text('Payment Information'),
               ),
@@ -39,7 +68,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [detailText('Cost'), detailText('451')],
+                            children: [
+                              detailText('Cost'),
+                              detailText('\$' +
+                                  provider.selectedDuration.price.toString())
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

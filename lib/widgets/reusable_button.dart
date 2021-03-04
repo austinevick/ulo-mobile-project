@@ -4,9 +4,8 @@ import 'login_button.dart';
 
 class ReusableButton extends StatelessWidget {
   final Function onPressed;
-  final Widget child;
 
-  const ReusableButton({Key key, this.onPressed, this.child}) : super(key: key);
+  const ReusableButton({Key key, this.onPressed}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +16,20 @@ class ReusableButton extends StatelessWidget {
             radius: 50,
             height: 50,
             width: double.infinity,
-            child: child,
+            child: Row(
+              children: [
+                Spacer(
+                  flex: 3,
+                ),
+                Text('Continue'),
+                Spacer(
+                  flex: 2,
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                )
+              ],
+            ),
             onPressed: onPressed));
   }
 }
