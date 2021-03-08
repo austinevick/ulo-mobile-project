@@ -25,8 +25,11 @@ class TherapistAvailabilityWidget extends StatelessWidget {
                   elevation: 2,
                   child: Container(
                     height: 60,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: provider.availability == availability
+                            ? Colors.green[100]
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

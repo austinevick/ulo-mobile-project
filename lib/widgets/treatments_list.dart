@@ -116,9 +116,12 @@ class TreatmentList extends StatelessWidget {
                 // elevation: 1,
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  height: 50,
+                  decoration: BoxDecoration(
+                      color: durations.selectedDuration == duration
+                          ? Colors.green[100]
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  height: 60,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

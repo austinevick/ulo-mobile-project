@@ -15,6 +15,7 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // elevation: 0,
         title: Text(
           'Ulo Mobile Spa',
           style: GoogleFonts.bungee(fontSize: 18),
@@ -22,19 +23,32 @@ class LandingScreen extends StatelessWidget {
       ),
       drawer: Drawer(child: DrawerWidget()),
       body: Column(children: [
-        SizedBox(
-          height: 50,
-        ),
-        Text(
-          'Welcome to Ulo Mobile Spa',
-          style: GoogleFonts.bungee(fontSize: 22),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'A new way for you to experience a professional massage at home, work or even in a hotel.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.oleoScript(fontSize: 14),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.indigo,
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(25),
+                  bottomLeft: Radius.circular(25))),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 35,
+              ),
+              Text(
+                'Welcome to Ulo Mobile Spa',
+                style: GoogleFonts.bungee(fontSize: 22, color: Colors.white),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'A new way for you to experience a professional massage at home, work or even in a hotel.',
+                  textAlign: TextAlign.center,
+                  style:
+                      GoogleFonts.oleoScript(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
         Center(
@@ -49,14 +63,16 @@ class LandingScreen extends StatelessWidget {
             onPressed: () =>
                 NetworkConnectivityChecker.checkConnection(context, () {
               showBarModalBottomSheet(
-                  builder: (context) => PickLocationScreen(), context: context);
+                  shape: OutlineInputBorder(borderSide: BorderSide.none),
+                  builder: (context) => PickLocationScreen(),
+                  context: context);
             }),
             radius: 50,
             width: double.infinity,
             buttonColor: Color(0xfff6be00),
             height: 50,
             child: Text(
-              'Get Started',
+              'Book a massage',
               style: TextStyle(color: Colors.white),
             ),
           ),

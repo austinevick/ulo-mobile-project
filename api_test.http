@@ -1,0 +1,12 @@
+GET https://api.ulomobilespa.com/treatments/1/therapists
+
+###
+POST https://api.ulomobilespa.com/stripePayment HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "hhjjkk_45552255",
+    "paymentData": {
+     "cityId": 1
+    }
+}

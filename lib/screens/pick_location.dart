@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ulomobile_project/internet_connectivity.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 import 'package:ulomobile_project/screens/booking_screen.dart';
-import 'package:ulomobile_project/screens/treatment_screen.dart';
 import 'package:ulomobile_project/widgets/custom_check_box.dart';
-import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/reusable_button.dart';
 
 class PickLocationScreen extends StatelessWidget {
@@ -17,38 +15,45 @@ class PickLocationScreen extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 2.2,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
+            Container(
+              alignment: Alignment.center,
+              height: 60,
+              width: double.infinity,
+              color: Colors.indigo,
               child: Text(
                 'Pick a location',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Divider(
-                thickness: 4,
-              ),
+            SizedBox(
+              height: 20,
             ),
             Expanded(
               child: cities.cities.isEmpty
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : Column(
+                  : ListView(
                       children: List.generate(cities.cities.length, (index) {
                       final city = cities.cities[index];
                       return GestureDetector(
                         onTap: () => cities.setSelectedCity(city),
                         child: Padding(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(6),
                           child: Material(
-                              elevation: 2,
+                              elevation: 6,
                               borderRadius: BorderRadius.circular(10),
                               child: Container(
-                                height: 60,
                                 decoration: BoxDecoration(
+                                    color: cities.selectedCity ==
+                                            cities.cities[index]
+                                        ? Colors.green[100]
+                                        : Colors.white,
                                     borderRadius: BorderRadius.circular(10)),
+                                height: 60,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(

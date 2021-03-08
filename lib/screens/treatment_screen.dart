@@ -41,23 +41,7 @@ class TreatmentScreen extends StatelessWidget {
                               builder: (context) => TreatmentDetailScreen(
                                     treatments: treatments,
                                   ));
-                        })
-
-                        /*Navigator.of(context).push(PageRouteBuilder(
-                              transitionDuration: Duration(seconds: 1),
-                              reverseTransitionDuration: Duration(seconds: 1),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                final curvedAnimation = CurvedAnimation(
-                                    curve: Interval(0, 0.5), parent: animation);
-                                return FadeTransition(
-                                  opacity: curvedAnimation,
-                                  child: TreatmentDetailScreen(
-                                      animation: animation,
-                                      treatments: treatments),
-                                );
-                              }));*/
-                        ,
+                        }),
                         child: Hero(
                           tag: treatments.id,
                           child: Padding(
