@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
+import 'package:ulomobile_project/screens/landing_screen.dart';
+import 'package:ulomobile_project/service/payment_service.dart';
+import 'package:ulomobile_project/widgets/animated_dialog.dart';
+import 'package:ulomobile_project/widgets/failure_dialog.dart';
 import 'package:ulomobile_project/widgets/inputfield_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
+import 'package:ulomobile_project/widgets/success_dialog.dart';
 
 class PaymentScreen extends StatefulWidget {
   final String firstName;
@@ -39,6 +45,7 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget detailText(String text, [FontWeight fontWeight]) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
@@ -46,68 +53,111 @@ class _PaymentScreenState extends State<PaymentScreen> {
           style: TextStyle(fontWeight: fontWeight, fontSize: 16),
         ),
       );
+
+  @override
+  void initState() {
+    StripeService.init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<NetworkProvider>(
-        builder: (context, provider, child) => Scaffold(
-              appBar: AppBar(
-                title: Text('Payment Information'),
-              ),
-              body: ListView(
-                children: [
-                  TextInputField(
-                    hintText: 'Discount code',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              detailText('Cost'),
-                              detailText('\$' +
-                                  provider.selectedDuration.price.toString())
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [detailText('Tax'), detailText('451')],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              detailText('Total', FontWeight.bold),
-                              detailText('451')
-                            ],
-                          ),
-                        ],
-                      ),
+    return Consumer<NetworkProvider>(builder: (context, provider, child) {
+      var cost = provider.selectedDuration.price;
+      var tax = 5 / 100 * cost;
+      var total = cost + tax;
+      var amount = (total).ceil();
+      return Scaffold(
+        key: scaffoldKey,
+        appBar: AppBar(
+          title: Text('Payment Information'),
+        ),
+        body: ListView(
+          children: [
+            TextInputField(
+              hintText: 'Enter discount code (if any)',
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.black)),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        detailText('Cost'),
+                        detailText('\$' + cost.toString())
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LoginButton(
-                      onPressed: () => null,
-                      radius: 50,
-                      buttonColor: Colors.indigo,
-                      height: 50,
-                      width: double.infinity,
-                      child: Text(
-                        'Make Payment',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [detailText('Tax'), detailText('\$' + '$tax')],
                     ),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        detailText('Total', FontWeight.bold),
+                        detailText('\$' + '$total')
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ));
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LoginButton(
+                onPressed: () => //print('${roundedFigure.toString()}0000'),
+                    payViaNewCard(context, '${amount.toString()}00'),
+                radius: 50,
+                buttonColor: Colors.indigo,
+                height: 50,
+                width: double.infinity,
+                child: Text(
+                  'Make Payment',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
+
+  payViaNewCard(BuildContext context, amount) async {
+    ProgressDialog dialog = new ProgressDialog(context);
+    dialog.style(message: 'Please wait...');
+    await dialog.show();
+    var response =
+        await StripeService.payWithNewCard(amount: amount, currency: 'USD');
+    await dialog.hide();
+    animatedDialog(
+        context: context,
+        child: response.success
+            ? SuccessDialog(
+                respond: response.message,
+              )
+            : FailureDialog(
+                respond: response.message,
+              ));
+    // scaffoldKey.currentState.showSnackBar(SnackBar(
+    // content: Text(response.message),
+    // duration:
+    //   new Duration(milliseconds: response.success == true ? 1200 : 3000),
+    //));
+  }
+
+  retryPayment(roundedFigure) =>
+      payViaNewCard(context, '${roundedFigure.toString()}00');
+  navigateToHomeScreen() =>
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => LandingScreen(),
+      ));
 }

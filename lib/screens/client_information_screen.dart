@@ -139,7 +139,7 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                                   items: pets
                                       .map((item) => DropdownMenuItem(
                                             value: item,
-                                            child: Text('$item'),
+                                            child: Text(item),
                                           ))
                                       .toList(),
                                   onChanged: (value) {

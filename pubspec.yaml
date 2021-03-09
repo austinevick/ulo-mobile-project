@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.16.1
   webview_flutter: ^0.3.22+1
   stripe_payment: ^1.0.10
+  progress_dialog: ^1.2.4
 
 
 dev_dependencies:

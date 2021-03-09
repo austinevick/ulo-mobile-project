@@ -12,14 +12,14 @@ class _TherapistRegistrationScreenState
     extends State<TherapistRegistrationScreen> {
   List<String> materials = ['Portable table', 'Chair', 'Both'];
   var selectedMaterial = 'Portable table';
-  List<String> availableDays = [
+  static List<String> availableDays = [
     'weekdays',
     'Weekends',
     'Mornings',
     'Afternoons',
     'Evenings'
   ];
-  var selectedDays = 'Weekdays';
+  var selectedDays = availableDays.first;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
