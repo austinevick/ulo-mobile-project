@@ -144,20 +144,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ? SuccessDialog(
                 respond: response.message,
               )
-            : FailureDialog(
-                respond: response.message,
-              ));
-    // scaffoldKey.currentState.showSnackBar(SnackBar(
-    // content: Text(response.message),
-    // duration:
-    //   new Duration(milliseconds: response.success == true ? 1200 : 3000),
-    //));
+            : FailureDialog(respond: response.message));
   }
-
-  retryPayment(roundedFigure) =>
-      payViaNewCard(context, '${roundedFigure.toString()}00');
-  navigateToHomeScreen() =>
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => LandingScreen(),
-      ));
 }

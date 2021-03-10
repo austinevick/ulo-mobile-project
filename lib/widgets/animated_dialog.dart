@@ -12,8 +12,8 @@ void animatedDialog({BuildContext context, Widget child}) {
               child: child,
             ));
       },
-      transitionDuration: Duration(milliseconds: 1000),
-      barrierDismissible: true,
+      transitionDuration: Duration(milliseconds: 800),
+      barrierDismissible: false,
       barrierLabel: '',
       context: context,
       pageBuilder: (context, animation1, animation2) {});
