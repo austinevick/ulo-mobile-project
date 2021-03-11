@@ -24,6 +24,7 @@ class BookingScreen2 extends StatefulWidget {
 }
 
 class _BookingScreen2State extends State<BookingScreen2> {
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
   String appBarTitle() =>
       widget.isMultiSelection ? 'Pick two therapist' : 'Pick a Therapist';
 
@@ -50,6 +51,7 @@ class _BookingScreen2State extends State<BookingScreen2> {
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
       builder: (context, therapist, child) => Scaffold(
+          key: scaffoldKey,
           appBar: AppBar(
             title: Text(appBarTitle()),
           ),
@@ -66,17 +68,15 @@ class _BookingScreen2State extends State<BookingScreen2> {
                         itemCount: therapist.therapists.length,
                         itemBuilder: (context, index) {
                           final therapists = therapist.therapists[index];
-                          final isSelected =
-                              selectedTherapists.contains(therapists);
+
                           return GestureDetector(
                             onTap: () {
                               selectedTherapist(therapists);
-
                               print('${therapists.name}');
                             },
                             child: ImageWidget(
                               therapists: therapists,
-                              isSelected: isSelected,
+                              isSelected: therapists.isSelected,
                             ),
                           );
                         },
@@ -88,6 +88,31 @@ class _BookingScreen2State extends State<BookingScreen2> {
     );
   }
 
+  buildSnackBar() {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: OutlineInputBorder(
+          borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8)),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.warning),
+          ),
+          Spacer(
+            flex: 2,
+          ),
+          Text('Cannot pick more than two therapists',
+              style: TextStyle(fontSize: 16)),
+          Spacer(
+            flex: 3,
+          )
+        ],
+      ),
+    ));
+  }
+
   buildButton() => ReusableButton(onPressed: () {
         showBarModalBottomSheet(
             context: context,
@@ -95,9 +120,7 @@ class _BookingScreen2State extends State<BookingScreen2> {
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
-            builder: (context) => AvailabilityScreen(
-                  therapists: selectedTherapists.first,
-                ));
+            builder: (context) => AvailabilityScreen());
       });
 
   navigateToAvailabilityScreen(BuildContext context, Therapists therapists) {

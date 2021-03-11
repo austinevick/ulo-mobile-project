@@ -36,9 +36,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
       builder: (context, provider, child) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
-            'Pick a date and time',
-          ),
+          title: Text('Pick a date and time' + widget.therapists.name),
         ),
         body: Column(
           children: [
