@@ -44,7 +44,7 @@ class PickLocationScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Material(
-                              elevation: 6,
+                              elevation: 2,
                               borderRadius: BorderRadius.circular(10),
                               child: Container(
                                 decoration: BoxDecoration(

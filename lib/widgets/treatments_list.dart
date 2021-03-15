@@ -22,6 +22,9 @@ class TreatmentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
         builder: (context, provider, child) => FlatButton(
+              shape: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(30)),
               onPressed: () {
                 provider.setSelectedTreatment(treatments);
                 NetworkConnectivityChecker.checkConnection(context, () {
@@ -33,18 +36,19 @@ class TreatmentList extends StatelessWidget {
                       context: context);
                 });
               },
-              child: Material(
-                borderRadius: BorderRadius.circular(30),
-                elevation: 6,
-                child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                  child: Column(
+              child: Container(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Card(
+                  elevation: 2,
+                  shape: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ListView(
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
                         child: Image.network(
                           'https://images.ulomobilespa.com/treatments/${treatments.image}',
                           height: MediaQuery.of(context).size.height / 3.8,
