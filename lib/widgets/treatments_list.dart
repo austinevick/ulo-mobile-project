@@ -35,24 +35,32 @@ class TreatmentList extends StatelessWidget {
               },
               child: Material(
                 borderRadius: BorderRadius.circular(30),
-                elevation: 1,
+                elevation: 6,
                 child: Container(
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                  child: ListView(
+                  child: Column(
                     children: <Widget>[
-                      Image.network(
-                        'https://images.ulomobilespa.com/treatments/${treatments.image}',
-                        height: MediaQuery.of(context).size.height / 3.8,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
+                        child: Image.network(
+                          'https://images.ulomobilespa.com/treatments/${treatments.image}',
+                          height: MediaQuery.of(context).size.height / 3.8,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       SizedBox(height: 6),
-                      Text(
-                        treatments.name,
-                        style: GoogleFonts.redressed(
-                            fontSize: 25, color: Color(0xff053738)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          treatments.name,
+                          style: GoogleFonts.redressed(
+                              fontSize: 25, color: Color(0xff053738)),
+                        ),
                       ),
                       Column(
                         children: treatments.desc

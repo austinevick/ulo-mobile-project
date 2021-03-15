@@ -47,27 +47,20 @@ class _BookingScreen1State extends State<BookingScreen1> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-      builder: (context, treatment, child) => widget.cities.id == 2 ||
-              widget.cities.id == 3
-          ? Scaffold(body: buildErrorPage())
-          : Scaffold(
-              appBar: AppBar(
-                title: Text('Pick a treatment'),
-              ),
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 10,
+      builder: (context, treatment, child) =>
+          widget.cities.id == 2 || widget.cities.id == 3
+              ? Scaffold(body: buildErrorPage())
+              : Scaffold(
+                  appBar: AppBar(
+                    title: Text('Pick a treatment'),
                   ),
-                  treatment.treatments.isEmpty
+                  body: treatment.treatments.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : Expanded(
-                          flex: 0,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.55,
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
                             child: PageView.builder(
                               controller: pageController,
                               itemCount: treatment.treatments.length,
@@ -84,9 +77,7 @@ class _BookingScreen1State extends State<BookingScreen1> {
                             ),
                           ),
                         ),
-                ],
-              ),
-            ),
+                ),
     );
   }
 
