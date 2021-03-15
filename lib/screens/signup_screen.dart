@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ulomobile_project/widgets/inputfield_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 
 class SignupScreen extends StatefulWidget {

@@ -7,15 +7,15 @@ import 'custom_check_box.dart';
 
 class TherapistAvailabilityWidget extends StatelessWidget {
   final DefaultAvailability availability;
-
-  const TherapistAvailabilityWidget({Key key, this.availability})
+  final DateTime selectedDate;
+  const TherapistAvailabilityWidget(
+      {Key key, this.availability, this.selectedDate})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
         builder: (context, provider, child) => GestureDetector(
               onTap: () {
-                print(availability);
                 provider.setAvailability(availability);
               },
               child: Padding(

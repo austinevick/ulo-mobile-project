@@ -18,62 +18,75 @@ class BookingScreen1 extends StatefulWidget {
 }
 
 class _BookingScreen1State extends State<BookingScreen1> {
-  final List<MaterialColor> _colors = [
-    Colors.blue,
-    Colors.indigo,
-    Colors.red,
-    Colors.purple,
-    Colors.green
+  PageController pageController;
+  double pageOffset = 0;
+  final List _colors = [
+    Color(0xffb7a5ca),
+    Color(0xfff1b1a6),
+    Color(0xff45101e),
+    Color(0xff61534e),
   ];
 
   @override
   void initState() {
     Provider.of<NetworkProvider>(context, listen: false)
         .getTreatments(widget.cities.id);
+    pageController = PageController(viewportFraction: 0.8);
+    pageController.addListener(() {
+      setState(() => pageOffset = pageController.page);
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-      builder: (context, treatment, child) =>
-          widget.cities.id == 2 || widget.cities.id == 3
-              ? Scaffold(body: buildErrorPage())
-              : Scaffold(
-                  appBar: AppBar(
-                    title: Text('Pick a treatment'),
+      builder: (context, treatment, child) => widget.cities.id == 2 ||
+              widget.cities.id == 3
+          ? Scaffold(body: buildErrorPage())
+          : Scaffold(
+              appBar: AppBar(
+                title: Text('Pick a treatment'),
+              ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                  body: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      treatment.treatments.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: treatment.treatments.length,
-                                itemBuilder: (ctx, index) {
-                                  final MaterialColor color =
-                                      _colors[index % _colors.length];
-                                  final treatments =
-                                      treatment.treatments[index];
-                                  return TreatmentList(
-                                    treatments: treatments,
-                                    color: color,
-                                  );
-                                },
-                              ),
+                  treatment.treatments.isEmpty
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Expanded(
+                          flex: 0,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.55,
+                            child: PageView.builder(
+                              controller: pageController,
+                              itemCount: treatment.treatments.length,
+                              itemBuilder: (ctx, index) {
+                                final Color color =
+                                    _colors[index % _colors.length];
+                                final treatments = treatment.treatments[index];
+                                return TreatmentList(
+                                  treatments: treatments,
+                                  color: color,
+                                  offset: pageOffset,
+                                );
+                              },
                             ),
-                      treatment.selectedDuration == null
-                          ? SizedBox.shrink()
-                          : buildButton(treatment)
-                    ],
-                  ),
-                ),
+                          ),
+                        ),
+                ],
+              ),
+            ),
     );
   }
 
@@ -106,14 +119,5 @@ class _BookingScreen1State extends State<BookingScreen1> {
             ],
           ),
         ),
-      );
-
-  buildButton(treatment) => ReusableButton(
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (ctx) => BookingScreen2(
-                  isMultiSelection:
-                      treatment.selectedTreatment.id == 1 ? true : false,
-                  treatments: treatment.selectedTreatment,
-                ))),
       );
 }

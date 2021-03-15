@@ -2,7 +2,7 @@ class Booking {
   final token;
   final int cityId;
   final int treatmentId;
-  final List<int> therapistIds;
+  final dynamic therapistIds;
   final int durationId;
   final String durationLength;
   final String durationPrice;

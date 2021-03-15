@@ -35,18 +35,6 @@ class _BookingScreen2State extends State<BookingScreen2> {
     super.initState();
   }
 
-  List<Therapists> selectedTherapists = [];
-  selectedTherapist(Therapists therapists) {
-    if (widget.isMultiSelection) {
-      final isSelected = selectedTherapists.contains(therapists);
-      setState(() => isSelected
-          ? selectedTherapists.remove(therapists)
-          : selectedTherapists.add(therapists));
-    } else {
-      navigateToAvailabilityScreen(context, therapists);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
@@ -68,10 +56,10 @@ class _BookingScreen2State extends State<BookingScreen2> {
                         itemCount: therapist.therapists.length,
                         itemBuilder: (context, index) {
                           final therapists = therapist.therapists[index];
-
                           return GestureDetector(
                             onTap: () {
-                              selectedTherapist(therapists);
+                              therapist.selectedTherapist(
+                                  widget.isMultiSelection, therapists, context);
                               print('${therapists.name}');
                             },
                             child: ImageWidget(
@@ -82,60 +70,26 @@ class _BookingScreen2State extends State<BookingScreen2> {
                         },
                       ),
                     ),
-                    selectedTherapists.length == 2 ? buildButton() : Container()
+                    therapist.selectedTherapists.length == 2
+                        ? buildButton()
+                        : Container()
                   ],
                 )),
     );
   }
 
-  buildSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      shape: OutlineInputBorder(
-          borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8)),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.warning),
-          ),
-          Spacer(
-            flex: 2,
-          ),
-          Text('Cannot pick more than two therapists',
-              style: TextStyle(fontSize: 16)),
-          Spacer(
-            flex: 3,
-          )
-        ],
-      ),
-    ));
-  }
-
   buildButton() => ReusableButton(onPressed: () {
+        final provider = Provider.of<NetworkProvider>(context, listen: false);
         showBarModalBottomSheet(
             context: context,
             bounce: false,
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
-            builder: (context) => AvailabilityScreen());
+            builder: (context) => AvailabilityScreen(
+                therapists: provider.selectedTherapists.first ??
+                    provider.selectedTherapists.last));
       });
-
-  navigateToAvailabilityScreen(BuildContext context, Therapists therapists) {
-    NetworkConnectivityChecker.checkConnection(context, () {
-      showBarModalBottomSheet(
-          context: context,
-          bounce: false,
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none),
-          builder: (context) => AvailabilityScreen(
-                therapists: therapists,
-              ));
-    });
-  }
 
   navigateToDetailScreen(BuildContext context, Therapists therapists) {
     Navigator.of(context).push(PageRouteBuilder(
@@ -152,4 +106,32 @@ class _BookingScreen2State extends State<BookingScreen2> {
           );
         }));
   }
+}
+
+buildSnackBar(BuildContext context) {
+  Scaffold.of(context).showSnackBar(SnackBar(
+    behavior: SnackBarBehavior.floating,
+    shape: OutlineInputBorder(
+        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8)),
+    content: Container(
+      alignment: Alignment.center,
+      height: 30,
+      child: Text('Selected therapist is unavailable',
+          style: TextStyle(fontSize: 16)),
+    ),
+  ));
+}
+
+navigateToAvailabilityScreen(BuildContext context, Therapists therapists) {
+  NetworkConnectivityChecker.checkConnection(context, () {
+    showBarModalBottomSheet(
+        context: context,
+        bounce: false,
+        shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none),
+        builder: (context) => AvailabilityScreen(
+              therapists: therapists,
+            ));
+  });
 }

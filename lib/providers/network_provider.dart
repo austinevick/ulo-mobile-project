@@ -5,6 +5,7 @@ import 'package:ulomobile_project/models/gifts.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/models/treatment.dart';
 import 'package:ulomobile_project/network_request/network_request.dart';
+import 'package:ulomobile_project/screens/booking_screen2.dart';
 
 class NetworkProvider extends ChangeNotifier {
   NetworkProvider() {
@@ -53,6 +54,25 @@ class NetworkProvider extends ChangeNotifier {
   setSelectedDuration(Durations duration) {
     selectedDuration = duration;
     selectedDuration.isSelected = !selectedDuration.isSelected;
+    notifyListeners();
+  }
+
+  List<Therapists> selectedTherapists = [];
+  selectedTherapist(
+      bool isMultiSelection, Therapists therapists, BuildContext context) {
+    if (isMultiSelection) {
+      final isSelected = selectedTherapists.contains(therapists);
+      isSelected
+          ? selectedTherapists.remove(therapists)
+          : selectedTherapists.add(therapists);
+      notifyListeners();
+    } else if (therapists.defaultAvailability.isEmpty) {
+      buildSnackBar(context);
+      return;
+    } else {
+      navigateToAvailabilityScreen(context, therapists);
+    }
+    therapists.isSelected = !therapists.isSelected;
     notifyListeners();
   }
 

@@ -137,6 +137,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     await dialog.show();
     var response =
         await StripeService.payWithNewCard(amount: amount, currency: 'USD');
+    response.toString();
     await dialog.hide();
     animatedDialog(
         context: context,

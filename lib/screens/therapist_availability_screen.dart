@@ -36,7 +36,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
       builder: (context, provider, child) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Pick a date and time' + widget.therapists.name),
+          title: Text('Pick a date and time'),
         ),
         body: Column(
           children: [
@@ -52,6 +52,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                       final availability =
                           widget.therapists.defaultAvailability[index];
                       return TherapistAvailabilityWidget(
+                        selectedDate: selectedDate,
                         availability: availability,
                       );
                     }),
