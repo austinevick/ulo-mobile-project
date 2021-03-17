@@ -119,6 +119,9 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                                   autofillHints: [
                                     AutofillHints.telephoneNumber
                                   ],
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
                                   controller: phoneNumberController,
                                   hintText: 'Phone Number* ',
                                   textInputType: TextInputType.phone,
