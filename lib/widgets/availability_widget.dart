@@ -22,7 +22,6 @@ class TherapistAvailabilityWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Material(
                   borderRadius: BorderRadius.circular(10),
-                  elevation: 2,
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(

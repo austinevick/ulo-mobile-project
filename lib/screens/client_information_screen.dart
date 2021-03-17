@@ -202,14 +202,16 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                       ],
                     ),
                   ),
-                  ReusableButton(
-                    onPressed: () {
-                      if (formKey.currentState.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => PaymentScreen()));
-                      }
-                    },
-                  )
+                  phoneNumberController.text.isEmpty
+                      ? Container()
+                      : ReusableButton(
+                          onPressed: () {
+                            if (formKey.currentState.validate()) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => PaymentScreen()));
+                            }
+                          },
+                        )
                 ],
               ),
             )));

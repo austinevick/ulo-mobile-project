@@ -39,7 +39,6 @@ class TreatmentList extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: Card(
-                  elevation: 2,
                   shape: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(10)),
@@ -62,8 +61,8 @@ class TreatmentList extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           treatments.name,
-                          style: GoogleFonts.redressed(
-                              fontSize: 25, color: Color(0xff053738)),
+                          style:
+                              TextStyle(fontSize: 22, color: Color(0xff053738)),
                         ),
                       ),
                       Column(
@@ -72,8 +71,8 @@ class TreatmentList extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     t,
-                                    style: GoogleFonts.redressed(
-                                        fontSize: 19, color: Color(0xff053738)),
+                                    style: TextStyle(
+                                        fontSize: 16, color: Color(0xff053738)),
                                   ),
                                 ))
                             .toList(),

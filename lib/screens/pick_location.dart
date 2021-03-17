@@ -21,11 +21,11 @@ class PickLocationScreen extends StatelessWidget {
               width: double.infinity,
               color: Colors.indigo,
               child: Text(
-                'Pick a location',
+                'SELECT YOUR CITY',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 20),
+                    fontSize: 18),
               ),
             ),
             SizedBox(
@@ -41,17 +41,16 @@ class PickLocationScreen extends StatelessWidget {
                       final city = cities.cities[index];
                       return GestureDetector(
                         onTap: () => cities.setSelectedCity(city),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: Material(
-                              elevation: 2,
-                              borderRadius: BorderRadius.circular(10),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(6),
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: cities.selectedCity ==
                                             cities.cities[index]
                                         ? Colors.green[100]
-                                        : Colors.white,
+                                        : Colors.transparent,
                                     borderRadius: BorderRadius.circular(10)),
                                 height: 60,
                                 child: Padding(
@@ -63,7 +62,7 @@ class PickLocationScreen extends StatelessWidget {
                                         child: Text(
                                           city.name,
                                           style: TextStyle(
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
@@ -76,12 +75,15 @@ class PickLocationScreen extends StatelessWidget {
                                                   color: Colors.green,
                                                 )
                                               : CustomCheckBox(
-                                                  color: Colors.white,
+                                                  color: Colors.grey[200],
                                                 )),
                                     ],
                                   ),
                                 ),
-                              )),
+                              ),
+                            ),
+                            Divider()
+                          ],
                         ),
                       );
                     })),

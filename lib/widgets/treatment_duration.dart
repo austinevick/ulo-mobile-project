@@ -47,12 +47,14 @@ class TreatmentDuration extends StatelessWidget {
                             return GestureDetector(
                               onTap: () => durations
                                   .setSelectedDuration(selectedDuration),
-                              child: Padding(
-                                padding: const EdgeInsets.all(6),
-                                child: Material(
-                                    elevation: 2,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Material(
+                                        // elevation: 2,
+                                        //borderRadius: BorderRadius.circular(10),
+                                        child: Container(
                                       decoration: BoxDecoration(
                                           color: durations.selectedDuration ==
                                                   selectedDuration
@@ -93,12 +95,22 @@ class TreatmentDuration extends StatelessWidget {
                                                         color: Colors.green,
                                                       )
                                                     : CustomCheckBox(
-                                                        color: Colors.white,
+                                                        color: Colors.white60,
                                                       )),
                                           ],
                                         ),
                                       ),
                                     )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 12, right: 12),
+                                    child: Divider(
+                                      height: 1,
+                                      thickness: 2,
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           })),

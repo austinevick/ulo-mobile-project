@@ -1,3 +1,4 @@
+import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,23 +58,26 @@ class LandingScreen extends StatelessWidget {
               child: Image.asset('images/image1.png')),
         ),
         Spacer(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: LoginButton(
-            onPressed: () =>
-                NetworkConnectivityChecker.checkConnection(context, () {
-              showBarModalBottomSheet(
-                  shape: OutlineInputBorder(borderSide: BorderSide.none),
-                  builder: (context) => PickLocationScreen(),
-                  context: context);
-            }),
-            radius: 50,
-            width: double.infinity,
-            buttonColor: Color(0xfff6be00),
-            height: 50,
-            child: Text(
-              'Book a massage',
-              style: TextStyle(color: Colors.white),
+        BouncingWidget(
+          onPressed: () => print('Hello'),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: LoginButton(
+              onPressed: () =>
+                  NetworkConnectivityChecker.checkConnection(context, () {
+                showBarModalBottomSheet(
+                    shape: OutlineInputBorder(borderSide: BorderSide.none),
+                    builder: (context) => PickLocationScreen(),
+                    context: context);
+              }),
+              radius: 50,
+              width: double.infinity,
+              buttonColor: Color(0xfff6be00),
+              height: 50,
+              child: Text(
+                'Book a massage',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ),

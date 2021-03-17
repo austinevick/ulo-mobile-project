@@ -12,11 +12,7 @@ class NetWorkRequest {
   static Future bookAppointment(Booking booking) async {
     final String url = 'https://api.ulomobilespa.com/stripePayment';
     try {
-      var response = await http.post((url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(booking.toMap()));
+      var response = await http.post((url), body: jsonEncode(booking.toMap()));
       print(response.body);
       if (response.statusCode == 201) {
         final result = jsonDecode(response.body);
