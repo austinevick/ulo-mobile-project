@@ -104,11 +104,11 @@ class _TherapistRegistrationScreenState
                   onChanged: (v) {},
                   value: false),
               Text('Please upload the following documents'),
-              FlatButton(
+              TextButton(
                 child: Text('Resume'),
                 onPressed: () {},
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Liability Insurance'),
                 onPressed: () {},
               ),

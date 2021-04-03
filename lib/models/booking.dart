@@ -48,11 +48,41 @@ class Booking {
 
   Map<String, dynamic> toMap() {
     return {
-      "token": {"hello": "hello"},
+      "token": {
+        "id": "tok_1IWhIgFl3x8QXQewCJxEG3QS",
+        "object": "token",
+        "card": {
+          "id": "card_1IWhIfFl3x8QXQewY4Bg1cUO",
+          "object": "card",
+          "address_city": null,
+          "address_country": null,
+          "address_line1": null,
+          "address_line1_check": null,
+          "address_line2": null,
+          "address_state": null,
+          "address_zip": null,
+          "address_zip_check": null,
+          "brand": "MasterCard",
+          "country": "JP",
+          "cvc_check": "unchecked",
+          "dynamic_last4": null,
+          "exp_month": 2,
+          "exp_year": 2023,
+          "funding": "credit",
+          "last4": "0474",
+          "name": null,
+          "tokenization_method": null
+        },
+        "client_ip": "**redacted**",
+        "created": 1616156374,
+        "livemode": true,
+        "type": "card",
+        "used": false
+      },
       "paymentData": {
         "cityId": cityId,
         "treatmentId": treatmentId,
-        "therapistIds": [therapistIds],
+        "therapistIds": therapistIds,
         "duration": {
           "id": durationId,
           "length": durationLength,
@@ -70,10 +100,10 @@ class Booking {
           "specialInstructions": specialInstructions,
           "buildingType": buildingType,
           "source": source,
-          "city": city,
-          "province": province
+          "city": "Calgary",
+          "province": "AB"
         },
-        "discountCode": discountCode
+        "discountCode": discountCode ?? ""
       }
     };
   }

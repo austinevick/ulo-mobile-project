@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
+import '../apikey.dart';
+
 class StripeTransactionResponse {
   String message;
   bool success;
@@ -13,16 +15,13 @@ class StripeTransactionResponse {
 class StripeService {
   static String apiBase = 'https://api.stripe.com/v1';
   static String paymentApiUrl = '${StripeService.apiBase}/payment_intents';
-  static String secret =
-      'sk_test_51GzPSKAHkSvR5D1Ieg5V6myirz60DixMsm6DG7nPECNYjaVmQz7MUllfYUJBFIvQDuipdxjeRIhkP8qIxo6dzfRJ00K8UANOp7';
   static Map<String, String> headers = {
-    'Authorization': 'Bearer ${StripeService.secret}',
+    'Authorization': 'Bearer $secretKey',
     'Content-Type': 'application/x-www-form-urlencoded'
   };
   static init() {
     StripePayment.setOptions(StripeOptions(
-        publishableKey:
-            "pk_test_51GzPSKAHkSvR5D1Iiqdh95ObxUhZw5rg3BrhhKxuDpUVv49Nze6aJhrLleU2XBiCFJq0S2jKHI7JdWQLgwXYgjeT00Tj0kVmxC",
+        publishableKey: publishableKey,
         merchantId: "Test",
         androidPayMode: 'test'));
   }
@@ -71,6 +70,9 @@ class StripeService {
       };
       var response = await http.post(StripeService.paymentApiUrl,
           body: body, headers: StripeService.headers);
+      if (response.statusCode == 201) {
+        print(response.body);
+      }
       return jsonDecode(response.body);
     } catch (err) {
       print('err charging user: ${err.toString()}');
