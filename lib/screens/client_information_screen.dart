@@ -211,7 +211,22 @@ class _ClientInformationScreenState extends State<ClientInformationScreen> {
                           onPressed: () {
                             if (formKey.currentState.validate()) {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) => PaymentScreen()));
+                                  builder: (ctx) => PaymentScreen(
+                                        firstName: fnameController.text,
+                                        lastName: lnameController.text,
+                                        emailAddress: emailController.text,
+                                        phoneNumber: phoneNumberController.text,
+                                        postalCode: postalCodeController.text,
+                                        street: homeAdressController.text,
+                                        specialInstruction:
+                                            instructionController.text,
+                                        pet: currentPet,
+                                        date: widget.date,
+                                        source: currentsocialChoice,
+                                        stairs: currentStairs,
+                                        location: currentLocation,
+                                        other: otherController.text,
+                                      )));
                             }
                           },
                         )

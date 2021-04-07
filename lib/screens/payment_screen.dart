@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-import 'package:stripe_sdk/stripe_sdk.dart';
-import 'package:stripe_sdk/stripe_sdk_ui.dart';
-import 'package:ulomobile_project/apikey.dart';
+import 'package:http/http.dart' as http;
 import 'package:ulomobile_project/providers/network_provider.dart';
-import 'package:ulomobile_project/screens/landing_screen.dart';
 import 'package:ulomobile_project/service/payment_service.dart';
 import 'package:ulomobile_project/widgets/animated_dialog.dart';
 import 'package:ulomobile_project/widgets/failure_dialog.dart';
@@ -16,174 +12,8 @@ import 'package:ulomobile_project/widgets/inputfield_widget.dart';
 import 'package:ulomobile_project/widgets/login_button.dart';
 import 'package:ulomobile_project/widgets/success_dialog.dart';
 
-class StripePaymentScreen extends StatefulWidget {
-  @override
-  _StripePaymentScreenState createState() => _StripePaymentScreenState();
-}
-
-class _StripePaymentScreenState extends State<StripePaymentScreen> {
-  final String postCreateIntentURL =
-      "https://api.ulomobilespa.com/stripePayment";
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final StripeCard card = StripeCard();
-
-  final Stripe stripe = Stripe(
-    "$publishableKey", //Your Publishable Key
-    stripeAccount:
-        "acct_1G...", //Merchant Connected Account ID. It is the same ID set on server-side.
-    returnUrlForSca: "stripesdk://3ds.stripesdk.io", //Return URL for SCA
-  );
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Stripe Payment"),
-      ),
-      body: new SingleChildScrollView(
-        child: new GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-          },
-          child: SafeArea(
-            child: Column(
-              children: [
-                CardForm(formKey: formKey, card: card),
-                Container(
-                  child: TextButton(
-                      child: const Text('Pay', style: TextStyle(fontSize: 20)),
-                      onPressed: () {
-                        formKey.currentState.validate();
-                        formKey.currentState.save();
-                        buy(context);
-                      }),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void buy(context) async {
-    final StripeCard stripeCard = card;
-
-    final String customerEmail = getCustomerEmail();
-
-    if (!stripeCard.validateCVC()) {
-      showAlertDialog(context, "Error", "CVC not valid.");
-      return;
-    }
-    if (!stripeCard.validateDate()) {
-      showAlertDialog(context, "Errore", "Date not valid.");
-      return;
-    }
-    if (!stripeCard.validateNumber()) {
-      showAlertDialog(context, "Error", "Number not valid.");
-      return;
-    }
-
-    Map<String, dynamic> paymentIntentRes =
-        await createPaymentIntent(stripeCard, customerEmail);
-    String clientSecret = paymentIntentRes['client_secret'];
-    String paymentMethodId = paymentIntentRes['payment_method'];
-    String status = paymentIntentRes['status'];
-
-    if (status == 'requires_action') //3D secure is enable in this card
-      paymentIntentRes =
-          await confirmPayment3DSecure(clientSecret, paymentMethodId);
-
-    if (paymentIntentRes['status'] != 'succeeded') {
-      showAlertDialog(context, "Warning", "Canceled Transaction.");
-      return;
-    }
-
-    if (paymentIntentRes['status'] == 'succeeded') {
-      showAlertDialog(context, "Success", "Thanks for buying!");
-      return;
-    }
-    showAlertDialog(
-        context, "Warning", "Transaction rejected.\nSomething went wrong");
-  }
-
-  Future<Map<String, dynamic>> createPaymentIntent(
-      StripeCard stripeCard, String customerEmail) async {
-    String clientSecret;
-    Map<String, dynamic> paymentIntentRes, paymentMethod;
-    try {
-      paymentMethod = await stripe.api.createPaymentMethodFromCard(stripeCard);
-      clientSecret =
-          await postCreatePaymentIntent(customerEmail, paymentMethod['id']);
-      paymentIntentRes = await stripe.api.retrievePaymentIntent(clientSecret);
-    } catch (e) {
-      print("ERROR_CreatePaymentIntentAndSubmit: $e");
-      showAlertDialog(context, "Error", "Something went wrong.");
-    }
-    return paymentIntentRes;
-  }
-
-  Future<String> postCreatePaymentIntent(
-      String email, String paymentMethodId) async {
-    String clientSecret;
-    http.Response response = await http.post(
-      postCreateIntentURL,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'payment_method_id': paymentMethodId,
-      }),
-    );
-    clientSecret = json.decode(response.body);
-    return clientSecret;
-  }
-
-  Future<Map<String, dynamic>> confirmPayment3DSecure(
-      String clientSecret, String paymentMethodId) async {
-    Map<String, dynamic> paymentIntentRes_3dSecure;
-    try {
-      await stripe.confirmPayment(clientSecret,
-          paymentMethodId: paymentMethodId);
-      paymentIntentRes_3dSecure =
-          await stripe.api.retrievePaymentIntent(clientSecret);
-    } catch (e) {
-      print("ERROR_ConfirmPayment3DSecure: $e");
-      showAlertDialog(context, "Error", "Something went wrong.");
-    }
-    return paymentIntentRes_3dSecure;
-  }
-
-  String getCustomerEmail() {
-    String customerEmail;
-    //Define how to get this info.
-    // -Ask to the customer through a textfield.
-    // -Get it from firebase Account.
-    customerEmail = "alessandro.berti@me.it";
-    return customerEmail;
-  }
-
-  showAlertDialog(BuildContext context, String title, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              child: Text("OK"),
-              onPressed: () => Navigator.of(context).pop(), // dismiss dialog
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
 class PaymentScreen extends StatefulWidget {
+  final String date;
   final String firstName;
   final String lastName;
   final String street;
@@ -210,7 +40,8 @@ class PaymentScreen extends StatefulWidget {
       this.stairs,
       this.location,
       this.other,
-      this.source})
+      this.source,
+      this.date})
       : super(key: key);
 
   @override
@@ -308,8 +139,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ProgressDialog dialog = new ProgressDialog(context);
     dialog.style(message: 'Please wait...');
     await dialog.show();
-    var response =
-        await StripeService.payWithNewCard(amount: amount, currency: 'USD');
+    var response = await payWithNewCard(amount: amount, currency: 'USD');
     response.toString();
     await dialog.hide();
     animatedDialog(
@@ -319,5 +149,110 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 respond: response.message,
               )
             : FailureDialog(respond: response.message));
+  }
+
+  PaymentMethod paymentMethod;
+  Future<StripeTransactionResponse> payWithNewCard(
+      {String amount, String currency}) async {
+    try {
+      paymentMethod = await StripePayment.paymentRequestWithCardForm(
+          CardFormPaymentRequest());
+      var paymentIntent =
+          await StripeService.createPaymentIntent(amount, currency);
+      var response = await StripePayment.confirmPaymentIntent(PaymentIntent(
+          clientSecret: paymentIntent['client_secret'],
+          paymentMethodId: paymentMethod.id));
+
+      if (response.status == 'succeeded') {
+        sendPaymentToken();
+        return new StripeTransactionResponse(
+            message: 'Transaction successful', success: true);
+      } else {
+        return new StripeTransactionResponse(
+            message: 'Transaction failed', success: false);
+      }
+    } on PlatformException catch (err) {
+      return StripeService.getPlatformExceptionErrorResult(err);
+    } catch (err) {
+      return new StripeTransactionResponse(
+          message: 'Transaction failed: ${err.toString()}', success: false);
+    }
+  }
+
+  sendPaymentToken() async {
+    final provider = Provider.of<NetworkProvider>(context, listen: false);
+    final url = 'https://api.ulomobilespa.com/stripePayment';
+    var body = {
+      "token": {
+        "id": paymentMethod.id,
+        "object": "payment_method",
+        "card": {
+          "id": "${paymentMethod.id}",
+          "object": "card",
+          "address_city": null,
+          "address_country": null,
+          "address_line1": null,
+          "address_line1_check": null,
+          "address_line2": null,
+          "address_state": null,
+          "address_zip": null,
+          "address_zip_check": null,
+          "brand": paymentMethod.card.brand,
+          "country": paymentMethod.card.country,
+          "cvc_check": paymentMethod.card.cvc,
+          "dynamic_last4": null,
+          "exp_month": paymentMethod.card.expMonth,
+          "exp_year": paymentMethod.card.expYear,
+          "funding": paymentMethod.card.funding,
+          "last4": paymentMethod.card.last4,
+          "name": null,
+          "tokenization_method": null
+        },
+        "client_ip": "**redacted**",
+        "created": paymentMethod.created,
+        "livemode": paymentMethod.livemode,
+        "type": paymentMethod.type,
+        "used": false
+      },
+      "paymentData": {
+        "cityId": provider.selectedCity,
+        "treatmentId": provider.selectedTreatment,
+        "therapistIds": [8],
+        "duration": {
+          "id": provider.selectedDuration.id,
+          "length": provider.selectedDuration.length,
+          "price": provider.selectedDuration.price
+        },
+        "date": widget.date,
+        "time": {
+          "key": provider.availability.key,
+          "displayValue": provider.availability.displayValue
+        },
+        "client": {
+          "firstName": widget.firstName,
+          "lastName": widget.lastName,
+          "street": widget.street,
+          "postalCode": "${widget.postalCode}",
+          "emailAddress": widget.emailAddress,
+          "phoneNumber": "${widget.phoneNumber}",
+          "specialInstructions":
+              "Please do not come for this appointment. It is a test",
+          "buildingType": "${widget.stairs}",
+          "source": "${widget.source}",
+          "city": "Calgary",
+          "province": "AB"
+        },
+        "discountCode": ""
+      }
+    };
+    try {
+      final response = await http.post(url, body: body);
+      if (response.statusCode == 201) {
+        print('${response.reasonPhrase}');
+        print('${response.body}');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

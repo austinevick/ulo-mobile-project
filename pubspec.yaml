@@ -47,6 +47,8 @@ dependencies:
   overlay_support: ^1.2.0
   data_connection_checker: ^0.3.4
   stripe_sdk: ^3.0.1+1
+  webview_flutter: ^2.0.3
+  
 
 
 dev_dependencies:

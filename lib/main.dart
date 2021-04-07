@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             accentColor: Colors.indigo,
             appBarTheme: AppBarTheme(color: Colors.indigo)),
-        home: StripePaymentScreen(),
+        home: LandingScreen(),
       ),
     );
   }
