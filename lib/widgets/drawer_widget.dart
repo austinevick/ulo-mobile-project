@@ -11,6 +11,9 @@ class DrawerWidget extends StatelessWidget {
             height: 160,
           ),
           ListTile(
+            title: Text('Login'),
+          ),
+          ListTile(
             title: Text('Treatments'),
           ),
           ListTile(

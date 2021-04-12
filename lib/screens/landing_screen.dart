@@ -58,26 +58,23 @@ class LandingScreen extends StatelessWidget {
               child: Image.asset('images/image1.png')),
         ),
         Spacer(),
-        BouncingWidget(
-          onPressed: () => print('Hello'),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: LoginButton(
-              onPressed: () =>
-                  NetworkConnectivityChecker.checkConnection(context, () {
-                showBarModalBottomSheet(
-                    shape: OutlineInputBorder(borderSide: BorderSide.none),
-                    builder: (context) => PickLocationScreen(),
-                    context: context);
-              }),
-              radius: 50,
-              width: double.infinity,
-              buttonColor: Color(0xfff6be00),
-              height: 50,
-              child: Text(
-                'Book a massage',
-                style: TextStyle(color: Colors.white),
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LoginButton(
+            onPressed: () =>
+                NetworkConnectivityChecker.checkConnection(context, () {
+              showBarModalBottomSheet(
+                  shape: OutlineInputBorder(borderSide: BorderSide.none),
+                  builder: (context) => PickLocationScreen(),
+                  context: context);
+            }),
+            radius: 50,
+            width: double.infinity,
+            buttonColor: Color(0xfff6be00),
+            height: 50,
+            child: Text(
+              'Book a massage',
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ),

@@ -23,7 +23,9 @@ class _TherapistRegistrationScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Register'),
+      ),
       body: Form(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

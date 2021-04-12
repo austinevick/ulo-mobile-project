@@ -16,7 +16,7 @@ class TreatmentDuration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
         builder: (context, durations, child) => Container(
-              height: MediaQuery.of(context).size.height / 2.2,
+              height: MediaQuery.of(context).size.height / 1.8,
               child: Column(
                 children: [
                   Container(
@@ -40,7 +40,7 @@ class TreatmentDuration extends StatelessWidget {
                         ? Center(
                             child: CircularProgressIndicator(),
                           )
-                        : ListView(
+                        : Column(
                             children: List.generate(treatments.duration.length,
                                 (index) {
                             final selectedDuration = treatments.duration[index];
@@ -115,10 +115,10 @@ class TreatmentDuration extends StatelessWidget {
                             );
                           })),
                   ),
-                  durations.selectedDuration == null
-                      ? SizedBox.shrink()
-                      : ReusableButton(
-                          onPressed: () {
+                  ReusableButton(
+                    onPressed: durations.selectedDuration == null
+                        ? null
+                        : () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (ctx) => BookingScreen2(
                                       isMultiSelection:
@@ -128,7 +128,7 @@ class TreatmentDuration extends StatelessWidget {
                                       treatments: durations.selectedTreatment,
                                     )));
                           },
-                        )
+                  )
                 ],
               ),
             ));

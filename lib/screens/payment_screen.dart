@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -215,8 +217,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "used": false
       },
       "paymentData": {
-        "cityId": provider.selectedCity,
-        "treatmentId": provider.selectedTreatment,
+        "cityId": provider.selectedCity.id,
+        "treatmentId": provider.selectedTreatment.id,
         "therapistIds": [8],
         "duration": {
           "id": provider.selectedDuration.id,
@@ -246,10 +248,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
       }
     };
     try {
-      final response = await http.post(url, body: body);
+      final response = await http.post(url, body: jsonEncode(body));
       if (response.statusCode == 201) {
-        print('${response.reasonPhrase}');
-        print('${response.body}');
+        final result = jsonDecode(response.body);
+        print('$result');
       }
     } catch (e) {
       print(e);
