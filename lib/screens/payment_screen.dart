@@ -183,6 +183,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   sendPaymentToken() async {
     final provider = Provider.of<NetworkProvider>(context, listen: false);
+    String therapistId() {
+      if (provider.selectedTherapists.isNotEmpty) {
+        return "${provider.selectedTherapists.first.id}, ${provider.selectedTherapists.last.id}";
+      } else {
+        return provider.singleTherapist.id.toString();
+      }
+    }
+
     final url = 'https://api.ulomobilespa.com/stripePayment';
     var body = {
       "token": {
@@ -219,7 +227,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       "paymentData": {
         "cityId": provider.selectedCity.id,
         "treatmentId": provider.selectedTreatment.id,
-        "therapistIds": [8],
+        "therapistIds": therapistId(),
         "duration": {
           "id": provider.selectedDuration.id,
           "length": provider.selectedDuration.length,

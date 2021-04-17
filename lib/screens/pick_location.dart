@@ -12,7 +12,7 @@ class PickLocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
       builder: (context, cities, child) => Container(
-        height: MediaQuery.of(context).size.height / 2.2,
+        height: MediaQuery.of(context).size.height / 1.9,
         child: Column(
           children: [
             Container(
@@ -36,7 +36,7 @@ class PickLocationScreen extends StatelessWidget {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : ListView(
+                  : Column(
                       children: List.generate(cities.cities.length, (index) {
                       final city = cities.cities[index];
                       return GestureDetector(
@@ -82,16 +82,20 @@ class PickLocationScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Divider()
+                            Container(
+                              width: double.infinity,
+                              height: 1,
+                              color: Colors.grey[400],
+                            )
                           ],
                         ),
                       );
                     })),
             ),
-            cities.selectedCity == null
-                ? SizedBox.shrink()
-                : ReusableButton(
-                    onPressed: () {
+            ReusableButton(
+              onPressed: cities.selectedCity == null
+                  ? null
+                  : () {
                       NetworkConnectivityChecker.checkConnection(context, () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(MaterialPageRoute(
@@ -100,7 +104,7 @@ class PickLocationScreen extends StatelessWidget {
                                 )));
                       });
                     },
-                  )
+            ),
           ],
         ),
       ),

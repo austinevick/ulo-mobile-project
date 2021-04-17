@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:overlay_support/overlay_support.dart';
@@ -25,6 +26,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light));
     return ChangeNotifierProvider(
       create: (context) => NetworkProvider(),
       child: MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ulomobile_project/screens/treatment_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -14,6 +15,10 @@ class DrawerWidget extends StatelessWidget {
             title: Text('Login'),
           ),
           ListTile(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => TreatmentScreen()));
+            },
             title: Text('Treatments'),
           ),
           ListTile(

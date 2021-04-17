@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:ulomobile_project/models/therapists.dart';
 import 'package:ulomobile_project/providers/network_provider.dart';
 
@@ -23,7 +22,7 @@ class ImageWidget extends StatelessWidget {
                       width: 100,
                       decoration: BoxDecoration(
                           border: isSelected
-                              ? Border.all(color: Colors.yellow, width: 3)
+                              ? Border.all(color: Colors.green[200], width: 3)
                               : null,
                           borderRadius: BorderRadius.circular(50),
                           image: DecorationImage(

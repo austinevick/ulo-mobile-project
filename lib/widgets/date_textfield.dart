@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class DateTextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final Function onTap;
-
-  const DateTextFieldWidget({Key key, this.controller, this.onTap})
+  final Function(String) onChanged;
+  const DateTextFieldWidget(
+      {Key key, this.onChanged, this.controller, this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class DateTextFieldWidget extends StatelessWidget {
         child: TextField(
           style: TextStyle(fontSize: 18, color: Colors.black),
           controller: controller,
+          onChanged: onChanged,
           readOnly: true,
           onTap: onTap,
           decoration: InputDecoration(

@@ -21,10 +21,7 @@ class TreatmentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-        builder: (context, provider, child) => FlatButton(
-              shape: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(30)),
+        builder: (context, provider, child) => TextButton(
               onPressed: () {
                 provider.setSelectedTreatment(treatments);
                 NetworkConnectivityChecker.checkConnection(context, () {
@@ -37,48 +34,55 @@ class TreatmentList extends StatelessWidget {
                 });
               },
               child: Container(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Card(
-                  shape: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: ListView(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
-                        child: Image.network(
-                          'https://images.ulomobilespa.com/treatments/${treatments.image}',
-                          height: MediaQuery.of(context).size.height / 3.8,
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          fit: BoxFit.cover,
-                        ),
+                decoration: BoxDecoration(
+                    color: treatments == provider.selectedTreatment
+                        ? Colors.green[100]
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black)),
+                height: MediaQuery.of(context).size.height / 1.4,
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      child: treatments.image.isEmpty
+                          ? Image.asset('images/placeholder-image.png',
+                              height: MediaQuery.of(context).size.height / 3.8,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              fit: BoxFit.cover)
+                          : Image.network(
+                              'https://images.ulomobilespa.com/treatments/${treatments.image}',
+                              height: MediaQuery.of(context).size.height / 3.8,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    SizedBox(height: 6),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        treatments.name,
+                        style:
+                            TextStyle(fontSize: 22, color: Color(0xff053738)),
                       ),
-                      SizedBox(height: 6),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          treatments.name,
-                          style:
-                              TextStyle(fontSize: 22, color: Color(0xff053738)),
-                        ),
-                      ),
-                      Column(
-                        children: treatments.desc
-                            .map((t) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    t,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Color(0xff053738)),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: treatments.desc
+                          .map((t) => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  t,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Color(0xff053738)),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ],
                 ),
               ),
             ));

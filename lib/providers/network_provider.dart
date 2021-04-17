@@ -58,6 +58,8 @@ class NetworkProvider extends ChangeNotifier {
   }
 
   List<Therapists> selectedTherapists = [];
+  Therapists singleTherapist;
+  Therapists singletherapists;
   selectedTherapist(
       bool isMultiSelection, Therapists therapists, BuildContext context) {
     if (isMultiSelection) {
@@ -70,7 +72,9 @@ class NetworkProvider extends ChangeNotifier {
       buildSnackBar(context);
       return;
     } else {
+      singleTherapist = therapists;
       navigateToAvailabilityScreen(context, therapists);
+      notifyListeners();
     }
     therapists.isSelected = !therapists.isSelected;
     notifyListeners();

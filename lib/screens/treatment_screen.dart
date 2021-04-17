@@ -15,8 +15,6 @@ class TreatmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var city = cities.id == 2 || cities.id == 3;
-
     return Consumer<NetworkProvider>(
         builder: (context, treatment, child) => Scaffold(
             appBar: AppBar(

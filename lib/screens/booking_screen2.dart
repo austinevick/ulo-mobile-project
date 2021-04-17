@@ -109,7 +109,7 @@ class _BookingScreen2State extends State<BookingScreen2> {
 }
 
 buildSnackBar(BuildContext context) {
-  Scaffold.of(context).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     behavior: SnackBarBehavior.floating,
     shape: OutlineInputBorder(
         borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8)),

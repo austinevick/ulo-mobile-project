@@ -27,7 +27,7 @@ class LandingScreen extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-              color: Colors.indigo,
+              //     color: Colors.indigo,
               borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(25),
                   bottomLeft: Radius.circular(25))),
@@ -38,7 +38,7 @@ class LandingScreen extends StatelessWidget {
               ),
               Text(
                 'Welcome to Ulo Mobile Spa',
-                style: GoogleFonts.bungee(fontSize: 22, color: Colors.white),
+                style: GoogleFonts.bungee(fontSize: 22, color: Colors.black),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -46,7 +46,7 @@ class LandingScreen extends StatelessWidget {
                   'A new way for you to experience a professional massage at home, work or even in a hotel.',
                   textAlign: TextAlign.center,
                   style:
-                      GoogleFonts.oleoScript(fontSize: 16, color: Colors.white),
+                      GoogleFonts.oleoScript(fontSize: 16, color: Colors.black),
                 ),
               ),
             ],

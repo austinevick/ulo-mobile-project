@@ -45,7 +45,11 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                 physics: BouncingScrollPhysics(),
                 children: [
                   DateTextFieldWidget(
-                      controller: controller, onTap: () => pickDate()),
+                      onChanged: (v) {
+                        setState(() => controller.text = 'Date');
+                      },
+                      controller: controller,
+                      onTap: () => pickDate()),
                   Column(
                     children: List.generate(
                         widget.therapists.defaultAvailability.length, (index) {
