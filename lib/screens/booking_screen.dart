@@ -49,34 +49,37 @@ class _BookingScreen1State extends State<BookingScreen1> {
     return Consumer<NetworkProvider>(
       builder: (context, treatment, child) =>
           widget.cities.id == 2 || widget.cities.id == 3
-              ? Scaffold(body: buildErrorPage())
-              : Scaffold(
-                  appBar: AppBar(
-                    title: Text('Pick a treatment'),
-                  ),
-                  body: treatment.treatments.isEmpty
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: PageView.builder(
-                              controller: pageController,
-                              itemCount: treatment.treatments.length,
-                              itemBuilder: (ctx, index) {
-                                final Color color =
-                                    _colors[index % _colors.length];
-                                final treatments = treatment.treatments[index];
-                                return TreatmentList(
-                                  treatments: treatments,
-                                  color: color,
-                                  offset: pageOffset,
-                                );
-                              },
+              ? SafeArea(child: Scaffold(body: buildErrorPage()))
+              : SafeArea(
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text('Pick a treatment'),
+                    ),
+                    body: treatment.treatments.isEmpty
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: PageView.builder(
+                                controller: pageController,
+                                itemCount: treatment.treatments.length,
+                                itemBuilder: (ctx, index) {
+                                  final Color color =
+                                      _colors[index % _colors.length];
+                                  final treatments =
+                                      treatment.treatments[index];
+                                  return TreatmentList(
+                                    treatments: treatments,
+                                    color: color,
+                                    offset: pageOffset,
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
+                  ),
                 ),
     );
   }

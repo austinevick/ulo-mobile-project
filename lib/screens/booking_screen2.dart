@@ -38,43 +38,48 @@ class _BookingScreen2State extends State<BookingScreen2> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkProvider>(
-      builder: (context, therapist, child) => Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            title: Text(appBarTitle()),
-          ),
-          body: therapist.therapists.isEmpty
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Column(
-                  children: [
-                    Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: therapist.therapists.length,
-                        itemBuilder: (context, index) {
-                          final therapists = therapist.therapists[index];
-                          return GestureDetector(
-                            onTap: () {
-                              therapist.selectedTherapist(
-                                  widget.isMultiSelection, therapists, context);
-                              print('${therapists.name}');
-                            },
-                            child: ImageWidget(
-                              therapists: therapists,
-                              isSelected: therapists.isSelected,
-                            ),
-                          );
-                        },
+      builder: (context, therapist, child) => SafeArea(
+        child: Scaffold(
+            key: scaffoldKey,
+            appBar: AppBar(
+              title: Text(appBarTitle()),
+            ),
+            body: therapist.therapists.isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: therapist.therapists.length,
+                          itemBuilder: (context, index) {
+                            final therapists = therapist.therapists[index];
+                            return GestureDetector(
+                              onTap: () {
+                                therapist.selectedTherapist(
+                                    widget.isMultiSelection,
+                                    therapists,
+                                    context);
+                                print('${therapists.name}');
+                              },
+                              child: ImageWidget(
+                                therapists: therapists,
+                                isSelected: therapists.isSelected,
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    therapist.selectedTherapists.length == 2
-                        ? buildButton()
-                        : Container()
-                  ],
-                )),
+                      therapist.selectedTherapists.length == 2
+                          ? buildButton()
+                          : Container()
+                    ],
+                  )),
+      ),
     );
   }
 

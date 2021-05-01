@@ -10,6 +10,26 @@ class TherapistRegistrationScreen extends StatefulWidget {
 
 class _TherapistRegistrationScreenState
     extends State<TherapistRegistrationScreen> {
+  final firstNameController = new TextEditingController();
+  final lastNameController = new TextEditingController();
+  final addressController = new TextEditingController();
+  final cityNameController = new TextEditingController();
+  final provinceNameController = new TextEditingController();
+  final postalController = new TextEditingController();
+  final emailController = new TextEditingController();
+  final phoneController = new TextEditingController();
+  final genderController = new TextEditingController();
+  final experienceLengthController = new TextEditingController();
+  final certificationController = new TextEditingController();
+  final referralController = new TextEditingController();
+  final languageController = new TextEditingController();
+  final firstRefNameController = new TextEditingController();
+  final firstRefPhoneController = new TextEditingController();
+  final firstRefEmailController = new TextEditingController();
+  final secondRefNameController = new TextEditingController();
+  final secondRefEmailController = new TextEditingController();
+  final secondRefPhoneController = new TextEditingController();
+  final formKey = new GlobalKey<FormState>();
   List<String> materials = ['Portable table', 'Chair', 'Both'];
   var selectedMaterial = 'Portable table';
   static List<String> availableDays = [
@@ -20,6 +40,7 @@ class _TherapistRegistrationScreenState
     'Evenings'
   ];
   var selectedDays = availableDays.first;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,50 +48,67 @@ class _TherapistRegistrationScreenState
         title: Text('Register'),
       ),
       body: Form(
+        key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
               TextInputField(
+                controller: firstNameController,
                 hintText: 'First Name',
               ),
               TextInputField(
+                controller: lastNameController,
                 hintText: 'Last Name',
               ),
               TextInputField(
+                controller: addressController,
                 hintText: 'Street Address',
               ),
               TextInputField(
                 hintText: 'City',
+                controller: cityNameController,
               ),
               TextInputField(
+                controller: provinceNameController,
                 hintText: 'Province',
               ),
               TextInputField(
+                controller: postalController,
                 hintText: 'Postal Code',
               ),
               TextInputField(
+                controller: emailController,
                 hintText: 'Email Address',
               ),
               TextInputField(
+                controller: phoneController,
                 hintText: 'Phone Number',
               ),
               TextInputField(
+                controller: genderController,
                 hintText: 'Gender',
               ),
               TextInputField(
+                controller: experienceLengthController,
                 hintText: 'Years of experience',
               ),
               TextInputField(
+                controller: certificationController,
                 hintText: 'I received my certification from',
               ),
               TextInputField(
+                controller: referralController,
                 hintText: 'Referred by',
               ),
               TextInputField(
+                controller: languageController,
                 hintText: 'Languages Spoken',
               ),
-              Text('I have a'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('I have a'),
+              ),
               DropdownButtonFormField(
                 items: materials
                     .map((items) => DropdownMenuItem(
@@ -84,7 +122,10 @@ class _TherapistRegistrationScreenState
               SizedBox(
                 height: 25,
               ),
-              Text('I would like to work'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('I would like to work'),
+              ),
               DropdownButtonFormField(
                 items: availableDays
                     .map((items) => DropdownMenuItem(
@@ -95,7 +136,10 @@ class _TherapistRegistrationScreenState
                 value: selectedDays,
                 onChanged: (value) => setState(() => selectedDays = value),
               ),
-              Text('I am'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('I am'),
+              ),
               CheckboxListTile(
                   title:
                       Text('Willing to carry a massage table to appointment'),
@@ -105,7 +149,10 @@ class _TherapistRegistrationScreenState
                   title: Text('Self-Employed (have GST/HST number)'),
                   onChanged: (v) {},
                   value: false),
-              Text('Please upload the following documents'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Please upload the following documents'),
+              ),
               TextButton(
                 child: Text('Resume'),
                 onPressed: () {},
@@ -116,24 +163,30 @@ class _TherapistRegistrationScreenState
               ),
               Text('References'),
               TextInputField(
+                controller: firstRefNameController,
                 hintText: 'Name',
               ),
               TextInputField(
+                controller: firstRefEmailController,
                 hintText: 'Email Address',
               ),
               TextInputField(
+                controller: firstRefPhoneController,
                 hintText: 'Phone Number',
               ),
               SizedBox(
                 height: 20,
               ),
               TextInputField(
+                controller: secondRefNameController,
                 hintText: 'Name',
               ),
               TextInputField(
+                controller: secondRefEmailController,
                 hintText: 'Email Address',
               ),
               TextInputField(
+                controller: secondRefPhoneController,
                 hintText: 'Phone Number',
               ),
               SizedBox(

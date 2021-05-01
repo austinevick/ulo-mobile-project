@@ -73,65 +73,70 @@ class _PaymentScreenState extends State<PaymentScreen> {
       var tax = 5 / 100 * cost;
       var total = cost + tax;
       var amount = (total).ceil();
-      return Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(
-          title: Text('Payment Information'),
-        ),
-        body: ListView(
-          children: [
-            TextInputField(
-              hintText: 'Enter discount code (if any)',
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black)),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        detailText('Cost'),
-                        detailText('\$' + cost.toString())
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [detailText('Tax'), detailText('\$' + '$tax')],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        detailText('Total', FontWeight.bold),
-                        detailText('\$' + '$total')
-                      ],
-                    ),
-                  ],
+      return SafeArea(
+        child: Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
+            title: Text('Payment Information'),
+          ),
+          body: ListView(
+            children: [
+              TextInputField(
+                hintText: 'Enter discount code (if any)',
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          detailText('Cost'),
+                          detailText('\$' + cost.toString())
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          detailText('Tax'),
+                          detailText('\$' + '$tax')
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          detailText('Total', FontWeight.bold),
+                          detailText('\$' + '$total')
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: LoginButton(
-                onPressed: () => //print('${roundedFigure.toString()}0000'),
-                    payViaNewCard(context, '${amount.toString()}00'),
-                radius: 50,
-                buttonColor: Colors.indigo,
-                height: 50,
-                width: double.infinity,
-                child: Text(
-                  'Make Payment',
-                  style: TextStyle(color: Colors.white),
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: LoginButton(
+                  onPressed: () => //print('${roundedFigure.toString()}0000'),
+                      payViaNewCard(context, '${amount.toString()}00'),
+                  radius: 50,
+                  buttonColor: Colors.indigo,
+                  height: 50,
+                  width: double.infinity,
+                  child: Text(
+                    'Make Payment',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });
